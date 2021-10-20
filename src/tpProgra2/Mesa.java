@@ -3,9 +3,9 @@ package tpProgra2;
 import java.util.Hashtable;
 
 public abstract class Mesa {
-	private String codigoDeMesa;
-	private Votante presDeMesa;
-	private Hashtable <Integer, Votante[]> franjasHorarias;
+	 protected String codigoDeMesa;
+	 protected Votante presDeMesa;
+	 protected Hashtable <Integer, Votante[]> franjasHorarias;
 	
 	String darCodigoDeMesa(){
 		return codigoDeMesa;
