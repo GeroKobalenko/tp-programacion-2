@@ -15,10 +15,11 @@ public class Votante extends Persona {
 		super(nombre, dni, edad);
 		this.enfPrevia=enfPrevia;
 		this.trabaja=trabaja;
+		yaVoto=false;
 	}
 	
 	public void votar(){
-		
+		this.yaVoto=true;
 	}
 	
 	public void agregarCertificado(boolean certi) {
@@ -29,12 +30,16 @@ public class Votante extends Persona {
 		return this.tieneCertificado;
 	}
 	
+	public void asignarPresDeMesa(boolean siOno) {
+		this.esPresDeMesa=siOno;
+	}
+	
 	public boolean esPresDeMesa() {
 		return this.esPresDeMesa;
 	}
 	
-	public void asignarTurno() {
-		
+	public void asignarTurno(String turno) {
+		this.turno=turno;
 	}
 	
 	public String consultarTurno() {

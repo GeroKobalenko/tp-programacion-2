@@ -1,11 +1,11 @@
 package tpProgra2;
 
-import java.util.Hashtable;
+import java.util.*;
 
 public abstract class Mesa {
 	 protected String codigoDeMesa;
 	 protected Votante presDeMesa;
-	 protected Hashtable <Integer, Votante[]> franjasHorarias;
+	 protected HashMap<Integer, Set<Votante>> franjasHorarias;
 	
 	String darCodigoDeMesa(){
 		return codigoDeMesa;
@@ -15,9 +15,7 @@ public abstract class Mesa {
 		return presDeMesa;
 		}
 	
-	Votante[] darVotantesEnFranjaHoraria(int franja) {
-		return this.franjasHorarias.get(franja);
-	}
+	public abstract Votante[] darVotantesEnFranjaHoraria(int franja);
 	
 	abstract void asignarTurno(Votante votante);
 	
@@ -26,5 +24,8 @@ public abstract class Mesa {
 	}
 	
 	abstract void confirmarVoto(int dni);
+
+	@Override
+	abstract public boolean equals(Object obj);
 	
 }
