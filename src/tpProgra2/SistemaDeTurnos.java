@@ -1,30 +1,27 @@
 package tpProgra2;
 
+import java.io.PrintStream;
+import java.util.*;
+
 public class SistemaDeTurnos {
 	private String nombreSistema;
+	private HashMap<Integer,Votante> votantes;
+	private Mesa mesas;
 	
 	public SistemaDeTurnos(String nombreSistema) {
-		/* Constructor del sistema de asignación de turnos.
-		* Si el parámetro nombre fuera null, debe generar una excepción.
-		*/
+		if(nombreSistema.equals(null))
+			throw new RuntimeException();
+		this.nombreSistema=nombreSistema;
 	}
 	
 	public void registrarVotante(int dni, String nombre, int edad, boolean enfPrevia, boolean trabaja) {
-		/* Registrar a los votantes. Antes de asignar un turno el votante debe estar registrado
-		* en el sistema.
-		* Si no lo está, se genera una excepción.
-		* Si la edad es menor a 16, se genera una excepción
-		*/
+		if(edad<16)
+			throw new RuntimeException();
+		
 	}
 	
 	public int agregarMesa(String tipoMesa,int dni) {
-		/* Agregar una nueva mesa del tipo dado en el parámetro y asignar el presidente
-		* de cada una, el cual deberá estar entre los votantes registrados y sin turno asignado.
-		* - Devuelve el número de mesa creada.
-		* si el president es un votante que no está registrado debe generar una excepción
-		* si el tipo de mesa no es válido debe generar una excepción
-		* Los tipos válidos son: “Enf_Preex”, “Mayor65”, “General” y “Trabajador”
-		*/
+		this.votantes.
 	}
 	
 	public Tupla<Integer,Integer> asignarTurno(int dni){

@@ -7,7 +7,7 @@ public class Votante extends Persona {
 	private boolean tieneCertificado;
 	private boolean esPresDeMesa;
 	private boolean yaVoto;
-	private String turno;
+	private StringBuilder turno;
 	
 	
 
@@ -15,7 +15,6 @@ public class Votante extends Persona {
 		super(nombre, dni, edad);
 		this.enfPrevia=enfPrevia;
 		this.trabaja=trabaja;
-		yaVoto=false;
 	}
 	
 	public void votar(){
@@ -38,11 +37,11 @@ public class Votante extends Persona {
 		return this.esPresDeMesa;
 	}
 	
-	public void asignarTurno(String turno) {
+	public void asignarTurno(StringBuilder turno) {
 		this.turno=turno;
 	}
 	
-	public String consultarTurno() {
+	public StringBuilder consultarTurno() {
 		return this.turno;
 	}
 	

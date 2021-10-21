@@ -16,15 +16,23 @@ public class MesaPersonaEnfermedad extends Mesa{
 	@Override
 	void asignarTurno(Votante votante) {
 		for(int i=8; i<=18 ; i++) {
-			if(this.franjasHorarias.get(i).size()<20)
+			if(this.franjasHorarias.get(i).size()<19) {
 				this.franjasHorarias.get(i).add(votante);
-		}
-				
+				votante.asignarTurno(new StringBuilder("Su turno es en la mesa: ")
+						.append(MesaPersonaEnfermedad.codDeMesa).append(" a las ")
+						.append(i).append(" horas" ));
+			}	
+		}		
 	}
 
 	@Override
-	public void confirmarVoto(int dni) {
-		//No se como hacerlo
+	public void confirmarVoto(Votante votante) {
+		Set<Integer> franjasHorarias=this.franjasHorarias.keySet();
+		for(int franjas: franjasHorarias) {
+			if(this.franjasHorarias.get(franjas).contains(votante)) {
+				votante.votar();
+			}
+		}
 	}
 	
 	@Override	

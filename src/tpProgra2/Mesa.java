@@ -23,9 +23,10 @@ public abstract class Mesa {
 		return franja;
 	}
 	
-	abstract void confirmarVoto(int dni);
+	abstract void confirmarVoto(Votante votante);
 
 	@Override
-	abstract public boolean equals(Object obj);
+	public
+	abstract boolean equals(Object obj);
 	
 }

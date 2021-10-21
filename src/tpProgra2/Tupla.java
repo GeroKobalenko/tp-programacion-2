@@ -1,4 +1,4 @@
-package com.example;
+package tpProgra2;
 
 public class Tupla<T1,T2> {
     private T1 x;
