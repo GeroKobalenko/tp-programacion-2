@@ -17,7 +17,8 @@ public class MesaPersonaEnfermedad extends Mesa{
 	void asignarTurno(Votante votante) {
 		for(int i=8; i<=18 ; i++) {
 			if(this.franjasHorarias.get(i).size()<19) {
-				this.franjasHorarias.get(i).add(votante);
+				if(!this.franjasHorarias.get(i).contains(votante))
+					this.franjasHorarias.get(i).add(votante);
 				votante.asignarTurno(new StringBuilder("Su turno es en la mesa: ")
 						.append(MesaPersonaEnfermedad.codDeMesa).append(" a las ")
 						.append(i).append(" horas" ));
@@ -45,7 +46,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 	}
 		
 	private void inicializarFranjas() {
-		for(int i=8; i<=18 ; i++)
+		for(int i=8; i<18 ; i++)
 			this.franjasHorarias.put(i,new HashSet<>());
 	}
 

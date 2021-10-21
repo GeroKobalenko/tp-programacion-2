@@ -8,7 +8,7 @@ public class MesaGeneral extends Mesa{
 	MesaGeneral(Votante presDeMesa){
 		this.presDeMesa=presDeMesa;
 		MesaGeneral.codDeMesa++;
-		this.codigoDeMesa=codDeMesa.toString();
+		this.codigoDeMesa=codDeMesa;
 		this.franjasHorarias= new HashMap<Integer,Set<Votante>>(); //DNI MEJOR ???
 		this.inicializarFranjas();
 		this.franjasHorarias.get(8).add(presDeMesa);

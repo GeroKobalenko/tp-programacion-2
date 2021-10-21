@@ -6,7 +6,7 @@ import java.util.*;
 public class SistemaDeTurnos {
 	private String nombreSistema;
 	private HashMap<Integer,Votante> votantes;
-	private Mesa mesas;
+	private LinkedList<Mesa> mesas;
 	
 	public SistemaDeTurnos(String nombreSistema) {
 		if(nombreSistema.equals(null))
@@ -21,7 +21,10 @@ public class SistemaDeTurnos {
 	}
 	
 	public int agregarMesa(String tipoMesa,int dni) {
-		this.votantes.
+		Mesa mesa= new MesaGeneral(this.votantes.get(dni));
+		this.mesas.add(mesa);
+		return mesa.codigoDeMesa;
+		
 	}
 	
 	public Tupla<Integer,Integer> asignarTurno(int dni){
@@ -73,10 +76,7 @@ public class SistemaDeTurnos {
 	
 	
 	public Tupla<Integer, Integer> consultaTurno(int dni){
-		/* Consulta el turno de un votante dado su DNI. Devuelve Mesa y franja horaria.
-		* - Si el DNI no pertenece a un votante genera una excepción.
-		* - Si el votante no tiene turno devuelve null.
-		*/
+		return this.votantes.get(dni).consultarTurno();
 	}
 	
 	

@@ -3,11 +3,11 @@ package tpProgra2;
 import java.util.*;
 
 public abstract class Mesa {
-	 protected String codigoDeMesa;
+	 protected Integer codigoDeMesa;
 	 protected Votante presDeMesa;
 	 protected HashMap<Integer, Set<Votante>> franjasHorarias;
 	
-	String darCodigoDeMesa(){
+	Integer darCodigoDeMesa(){
 		return codigoDeMesa;
 		}
 	
