@@ -2,14 +2,12 @@ package tpProgra2;
 
 import java.util.*;
 
-public abstract class Mesa {
-	 protected Integer codigoDeMesa;
+public abstract class Mesa{
+	 protected static Integer codigoDeMesa;
 	 protected Votante presDeMesa;
 	 protected HashMap<Integer, Set<Votante>> franjasHorarias;
 	
-	Integer darCodigoDeMesa(){
-		return codigoDeMesa;
-		}
+	 public abstract Integer darCodigoDeMesa();
 	
 	Votante darPresDeMesa(){
 		return presDeMesa;

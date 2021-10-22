@@ -3,6 +3,8 @@ package tpProgra2;
 import java.io.PrintStream;
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 public class SistemaDeTurnos {
 	private String nombreSistema;
 	private HashMap<Integer,Votante> votantes;
@@ -17,10 +19,22 @@ public class SistemaDeTurnos {
 	public void registrarVotante(int dni, String nombre, int edad, boolean enfPrevia, boolean trabaja) {
 		if(edad<16)
 			throw new RuntimeException();
+		if(trabaja) {
+			String certificado= JOptionPane.showInputDialog("Tiene certificado de trabajo? Si o No");
+			if(certificado.compareToIgnoreCase("si")==0) {
+				this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
+				this.votantes.get(dni).agregarCertificado(true);
+			}
+			else {
+				this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
+				this.votantes.get(dni).agregarCertificado(false);
+			}
+		}
 		
 	}
 	
 	public int agregarMesa(String tipoMesa,int dni) {
+		
 		Mesa mesa= new MesaGeneral(this.votantes.get(dni));
 		this.mesas.add(mesa);
 		return mesa.codigoDeMesa;
@@ -28,16 +42,30 @@ public class SistemaDeTurnos {
 	}
 	
 	public Tupla<Integer,Integer> asignarTurno(int dni){
-		/* Asigna un turno a un votante determinado.
-		* - Si el DNI no pertenece a un votante registrado debe generar una excepción.
-		* - Si el votante ya tiene turno asignado se devuelve el turno como: Número de
-		* Mesa y Franja Horaria.
-		* - Si aún no tiene turno asignado se busca una franja horaria disponible en una
-		* mesa del tipo correspondiente al votante y se devuelve el turno asignado, como
-		* Número de Mesa y Franja Horaria.
-		* - Si no hay mesas con horarios disponibles no modifica nada y devuelve null.
-		* (Se supone que el turno permitirá conocer la mesa y la franja horaria asignada)
-		*/
+		if(!this.votantes.containsKey(dni))
+			throw new RuntimeException();
+		if(!this.votantes.get(dni).consultarTurno().getX().equals(null)){
+			return this.votantes.get(dni).consultarTurno();
+		}
+		if(this.votantes.get(dni).tieneEnfPrevia()) {
+			Mesa mesaPersonaEnferma= new MesaPersonaEnfermedad(null);
+			for(Mesa mesaPersEnferma: this.mesas ) {
+				if(mesaPersEnferma.equals(mesaPersonaEnferma)) {
+					mesaPersEnferma.asignarTurno(this.votantes.get(dni));
+				}		
+			}
+		}
+		else if(this.votantes.get(dni).esTrabajor()){
+			Mesa mesaTrabajadores= new MesaPersonaTrabaja(null);
+			for(Mesa mesaPersTrabaja: this.mesas ) {
+				mesaPersTrabaja.getClass().equals(mesaTrabajadores.getClass());
+				if(mesaPersTrabaja.equals(mesaTrabajadores)) {
+					mesaPersTrabaja.asignarTurno(this.votantes.get(dni));
+					
+				}		
+			}
+		}
+		return null;
 	}
 	
 	public int asignarTurno() {

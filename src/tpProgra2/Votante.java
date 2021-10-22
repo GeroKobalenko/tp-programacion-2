@@ -7,7 +7,7 @@ public class Votante extends Persona {
 	private boolean tieneCertificado;
 	private boolean esPresDeMesa;
 	private boolean yaVoto;
-	private StringBuilder turno;
+	private Tupla<Integer,Integer> turno;
 	
 	
 
@@ -15,6 +15,7 @@ public class Votante extends Persona {
 		super(nombre, dni, edad);
 		this.enfPrevia=enfPrevia;
 		this.trabaja=trabaja;
+		this.turno=new Tupla<Integer, Integer>(null,null);
 	}
 	
 	public void votar(){
@@ -29,6 +30,14 @@ public class Votante extends Persona {
 		return this.tieneCertificado;
 	}
 	
+	public boolean esTrabajor() {
+		return this.trabaja;
+	}
+	
+	public boolean tieneEnfPrevia() {
+		return this.enfPrevia;
+	}
+	
 	public void asignarPresDeMesa(boolean siOno) {
 		this.esPresDeMesa=siOno;
 	}
@@ -37,11 +46,12 @@ public class Votante extends Persona {
 		return this.esPresDeMesa;
 	}
 	
-	public void asignarTurno(StringBuilder turno) {
-		this.turno=turno;
+	public void asignarTurno(Integer codDeMesa, Integer franja) {
+		this.turno.setX(codDeMesa);
+		this.turno.setY(franja);
 	}
 	
-	public StringBuilder consultarTurno() {
+	public Tupla<Integer, Integer> consultarTurno() {
 		return this.turno;
 	}
 	
