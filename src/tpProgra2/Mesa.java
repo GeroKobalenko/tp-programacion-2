@@ -3,13 +3,27 @@ package tpProgra2;
 import java.util.*;
 
 public abstract class Mesa{
-	 protected static Integer codigoDeMesa=0;
+	
+	 protected static Integer contadorCodigo=0;
+	 
+	 protected int codDeMesa;
 	 protected Votante presDeMesa;
 	 protected HashMap<Integer, Set<Votante>> franjasHorarias;
 	 
+	 //Ver si quitar
 	 Mesa(){
-		 Mesa.codigoDeMesa++;
+		 Mesa.contadorCodigo++;
 	 }
+	 
+	 Mesa(Votante presidenteDeMesa){
+		 presDeMesa = presidenteDeMesa;
+		 this.franjasHorarias= new HashMap<Integer,Set<Votante>>();
+		 contadorCodigo++;
+		 codDeMesa = contadorCodigo;
+		 inicializarFranjas();
+	 }
+	 
+	 public abstract void inicializarFranjas();
 	
 	 public abstract Integer darCodigoDeMesa();
 	
@@ -28,7 +42,6 @@ public abstract class Mesa{
 	abstract void confirmarVoto(Votante votante);
 
 	@Override
-	public
-	abstract boolean equals(Object obj);
+	public abstract boolean equals(Object obj);
 	
 }

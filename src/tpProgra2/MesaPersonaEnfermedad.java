@@ -3,14 +3,10 @@ package tpProgra2;
 import java.util.*;
 
 public class MesaPersonaEnfermedad extends Mesa{
-	private int codDeMesa;
-
+	
 	MesaPersonaEnfermedad(Votante presDeMesa){
-		super();
-		this.presDeMesa=presDeMesa;
-		this.codDeMesa=Mesa.codigoDeMesa;
-		this.franjasHorarias= new HashMap<Integer,Set<Votante>>(); //DNI MEJOR ???
-		this.inicializarFranjas();
+
+		super(presDeMesa);
 		}
 		
 	@Override
@@ -19,7 +15,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 			if(this.franjasHorarias.get(i).size()<19) {
 				if(!this.franjasHorarias.get(i).contains(votante))
 					this.franjasHorarias.get(i).add(votante);
-				votante.asignarTurno(this.codigoDeMesa, i);
+				votante.asignarTurno(this.codDeMesa, i);
 			}	
 		}		
 	}
@@ -43,7 +39,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 		return 20-this.franjasHorarias.get(franja).size();
 	}
 		
-	private void inicializarFranjas() {
+	public void inicializarFranjas() {
 		for(int i=8; i<18 ; i++)
 			this.franjasHorarias.put(i,new HashSet<>());
 	}
@@ -64,5 +60,4 @@ public class MesaPersonaEnfermedad extends Mesa{
 	public Integer darCodigoDeMesa() {
 		return this.codDeMesa;
 	}
-
 }
