@@ -2,7 +2,6 @@ package tpProgra2;
 
 import java.util.*;
 import javax.management.RuntimeErrorException;
-import javax.swing.JOptionPane;
 
 public class SistemaDeTurnos {
 	private String nombreSistema;
@@ -14,20 +13,15 @@ public class SistemaDeTurnos {
 		if(nombreSistema.equals(null))
 			throw new RuntimeException();
 		this.nombreSistema=nombreSistema;
+		this.votantes= new HashMap<>();
+		this.mesas=new ArrayList<>();
 	}
 	
 	public void registrarVotante(int dni, String nombre, int edad, boolean enfPrevia, boolean trabaja) {
 		if(edad<16)
 			throw new RuntimeException();
-		if(trabaja) {
-			String certificado= JOptionPane.showInputDialog("Tiene certificado de trabajo? Si o No");
-			if(certificado.compareToIgnoreCase("si")==0) {
-				this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
-			}
-			else {
-				this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
-			}
-		}
+	
+		this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
 	}
 	
 	public int agregarMesa(String tipoMesa,int dni) {
@@ -64,7 +58,7 @@ public class SistemaDeTurnos {
 		if(!this.votantes.containsKey(dni))
 			throw new RuntimeException();
 		
-		if(!this.votantes.get(dni).consultarTurno().getX().equals(null))
+		if(!(this.votantes.get(dni).consultarTurno().getX()==null))
 			return this.votantes.get(dni).consultarTurno();
 		
 		if(this.votantes.get(dni).tieneEnfPrevia()) {
@@ -96,17 +90,20 @@ public class SistemaDeTurnos {
 		return null;
 	}
 	
+	public int asignarTurno() {
+		return asignarTurnos();
+	}
+	
 	public int asignarTurnos() {
 		int turnosAsignados=0;
 		Set<Integer> votantes= this.votantes.keySet();
 		for(Integer dni: votantes) {
-			if(!this.asignarTurno(dni).equals(null)) {
+			if(!(this.asignarTurno(dni)==null)) {
 				turnosAsignados++;
 			}
 		}
 		return turnosAsignados;
 	}
-	
 	public boolean votar(int dni) {
 		if(!this.votantes.containsKey(dni))
 			throw new RuntimeException();

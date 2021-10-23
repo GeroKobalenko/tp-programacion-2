@@ -4,9 +4,8 @@ import java.util.*;
 
 public abstract class Mesa{
 	
-	 protected static Integer contadorCodigo=0;
-	 
-	 protected int codDeMesa;
+	 private static Integer contadorCodigo=0;
+	 private int codDeMesa;
 	 protected Votante presDeMesa;
 	 protected HashMap<Integer, Set<Votante>> franjasHorarias;
 	 
@@ -18,7 +17,7 @@ public abstract class Mesa{
 	 Mesa(Votante presidenteDeMesa){
 		 presDeMesa = presidenteDeMesa;
 		 this.franjasHorarias= new HashMap<Integer,Set<Votante>>();
-		 contadorCodigo++;
+		 Mesa.contadorCodigo++;
 		 codDeMesa = contadorCodigo;
 		 inicializarFranjas();
 	 }
@@ -27,7 +26,7 @@ public abstract class Mesa{
 	
 	public Integer darCodigoDeMesa() {
 		return codDeMesa;
-	};
+	}
 	
 	public Votante darPresDeMesa(){
 		return presDeMesa;

@@ -11,7 +11,7 @@ public class MesaPersonaTrabaja extends Mesa{
 	@Override
 	void asignarTurno(Votante votante) {
 			this.franjasHorarias.get(8).add(votante);
-			votante.asignarTurno(this.codDeMesa, 8);
+			votante.asignarTurno(this.darCodigoDeMesa(), 8);
 		}			
 
 	@Override
@@ -44,11 +44,11 @@ public class MesaPersonaTrabaja extends Mesa{
 		if (getClass() != obj.getClass())
 			return false;
 		Mesa other = (Mesa) obj;
-		return Objects.equals(this.codDeMesa, other.codDeMesa);
+		return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
 	}
 
 	@Override
 	public Integer darCodigoDeMesa() {
-		return this.codDeMesa;
+		return this.darCodigoDeMesa();
 	}
 }

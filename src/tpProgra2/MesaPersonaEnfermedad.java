@@ -10,11 +10,11 @@ public class MesaPersonaEnfermedad extends Mesa{
 		
 	@Override
 	void asignarTurno(Votante votante) {
-		for(int i=8; i<=18 ; i++) {
-			if(this.franjasHorarias.get(i).size()<19) {
+		for(int i=8; i<18 ; i++) {
+			if(this.franjasHorarias.get(i).size()<20) {
 				if(!this.franjasHorarias.get(i).contains(votante))
 					this.franjasHorarias.get(i).add(votante);
-				votante.asignarTurno(this.codDeMesa, i);
+				votante.asignarTurno(this.darCodigoDeMesa(), i);
 			}	
 		}		
 	}
@@ -54,11 +54,11 @@ public class MesaPersonaEnfermedad extends Mesa{
 		if (getClass() != obj.getClass())
 			return false;
 		Mesa other = (Mesa) obj;
-		return Objects.equals(this.codDeMesa, other.codDeMesa);
+		return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
 	}
 
 	@Override
 	public Integer darCodigoDeMesa() {
-		return this.codDeMesa;
+		return this.darCodigoDeMesa();
 	}
 }

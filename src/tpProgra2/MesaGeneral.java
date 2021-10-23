@@ -54,7 +54,7 @@ public class MesaGeneral extends Mesa{
 		if (getClass() != obj.getClass())
 			return false;
 		Mesa other = (Mesa) obj;
-		return Objects.equals(this.codDeMesa, other.codDeMesa);
+		return Objects.equals(this.codDeMesa, other.darCodigoDeMesa());
 	}
 
 	@Override
