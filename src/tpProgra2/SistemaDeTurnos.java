@@ -9,7 +9,8 @@ import javax.swing.JOptionPane;
 public class SistemaDeTurnos {
 	private String nombreSistema;
 	private HashMap<Integer,Votante> votantes;
-	private LinkedList<Mesa> mesas;
+//	private LinkedList<Mesa> mesas;
+	private ArrayList<Mesa> mesas;
 	
 	public SistemaDeTurnos(String nombreSistema) {
 		if(nombreSistema.equals(null))
@@ -132,20 +133,46 @@ public class SistemaDeTurnos {
 	
 	public int votantesConTurno(String tipoMesa) {
 		
-		if(tipoMesa.compareTo("Mayor65")==0) {
-			Iterator<Mesa> mesasAux= this.mesas.iterator();
-			
-		}
-		else if(tipoMesa.compareTo("Enf_Preex")==0) {
-			
-		}
-		else if(tipoMesa.compareTo("General")==0) {
-			
-		}
-		else {
-			
-		}
+		int result = 0;
 		
+		for (int i=0; i <mesas.size(); i++) {
+			Mesa mesaActual = mesas.get(i);
+			
+			if (tipoMesa == "Mayor65" && mesaActual instanceof MesaPersonaMayor) {
+				
+				Set<Integer> keys = mesaActual.franjasHorarias.keySet();
+				
+				for (Integer key : keys) {
+					result = result + mesaActual.franjasHorarias.get(key).size();
+				}
+			}
+			
+			if (tipoMesa == "Enf_Preex" && mesaActual instanceof MesaPersonaEnfermedad) {
+				
+				Set<Integer> keys = mesaActual.franjasHorarias.keySet();
+				
+				for (Integer key : keys) {
+					result = result + mesaActual.franjasHorarias.get(key).size();
+				}
+			}
+			if (tipoMesa == "General" && mesaActual instanceof MesaPersonaEnfermedad) {
+				
+				Set<Integer> keys = mesaActual.franjasHorarias.keySet();
+				
+				for (Integer key : keys) {
+					result = result + mesaActual.franjasHorarias.get(key).size();
+				}
+			}
+			else {
+				Set<Integer> keys = mesaActual.franjasHorarias.keySet();
+				
+				for (Integer key : keys) {
+					result = result + mesaActual.franjasHorarias.get(key).size();
+				}
+			}
+			
+		}
+		return result;
 	}
 	
 	
