@@ -10,13 +10,18 @@ public class MesaPersonaEnfermedad extends Mesa{
 		
 	@Override
 	void asignarTurno(Votante votante) {
-		for(int i=8; i<18 ; i++) {
-			if(this.franjasHorarias.get(i).size()<20) {
-				if(!this.franjasHorarias.get(i).contains(votante))
-					this.franjasHorarias.get(i).add(votante);
-				votante.asignarTurno(this.darCodigoDeMesa(), i);
-			}	
-		}		
+		int keyFranja = buscarFranjaDisponible();
+		this.franjasHorarias.get(keyFranja).add(votante);	
+	}
+	
+	@Override
+	public int buscarFranjaDisponible() {
+		for(int i=8; i<=18 ; i++) {
+			if (this.franjasHorarias.get(i).size()< 19) {
+				return i;
+			}
+		}
+		return 0;
 	}
 
 	@Override

@@ -22,7 +22,9 @@ public abstract class Mesa{
 		 inicializarFranjas();
 	 }
 	 
-	 public abstract void inicializarFranjas();
+	public abstract void inicializarFranjas();
+	
+	public abstract int buscarFranjaDisponible();
 	
 	public Integer darCodigoDeMesa() {
 		return codDeMesa;
