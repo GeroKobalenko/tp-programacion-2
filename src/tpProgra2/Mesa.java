@@ -11,9 +11,9 @@ public abstract class Mesa{
 	 protected HashMap<Integer, Set<Votante>> franjasHorarias;
 	 
 	 //Ver si quitar
-	 Mesa(){
-		 Mesa.contadorCodigo++;
-	 }
+//	 Mesa(){
+//		 Mesa.contadorCodigo++;
+//	 }
 	 
 	 Mesa(Votante presidenteDeMesa){
 		 presDeMesa = presidenteDeMesa;
@@ -25,9 +25,11 @@ public abstract class Mesa{
 	 
 	 public abstract void inicializarFranjas();
 	
-	 public abstract Integer darCodigoDeMesa();
+	public Integer darCodigoDeMesa() {
+		return codDeMesa;
+	};
 	
-	Votante darPresDeMesa(){
+	public Votante darPresDeMesa(){
 		return presDeMesa;
 		}
 	
@@ -35,13 +37,10 @@ public abstract class Mesa{
 	
 	abstract void asignarTurno(Votante votante);
 	
-	int darCupoDeMesa(int franja) {
-		return franja;
-	}
+	public abstract int darCupoDeMesa(int franja);
 	
 	abstract void confirmarVoto(Votante votante);
 
-	@Override
 	public abstract boolean equals(Object obj);
 	
 }

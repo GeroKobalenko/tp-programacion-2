@@ -5,7 +5,6 @@ import java.util.*;
 public class MesaPersonaEnfermedad extends Mesa{
 	
 	MesaPersonaEnfermedad(Votante presDeMesa){
-
 		super(presDeMesa);
 		}
 		
@@ -35,10 +34,12 @@ public class MesaPersonaEnfermedad extends Mesa{
 		return (Votante[]) this.franjasHorarias.get(franja).toArray();
 	}
 	
+	@Override	
 	public int darCupoDeMesa(int franja) {
 		return 20-this.franjasHorarias.get(franja).size();
 	}
-		
+	
+	@Override	
 	public void inicializarFranjas() {
 		for(int i=8; i<18 ; i++)
 			this.franjasHorarias.put(i,new HashSet<>());
@@ -46,18 +47,13 @@ public class MesaPersonaEnfermedad extends Mesa{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Mesa other = (Mesa) obj;
-		return Objects.equals(this.getClass(), other.getClass());
-	}
-
-	@Override
-	public Integer darCodigoDeMesa() {
-		return this.codDeMesa;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Mesa other = (Mesa) obj;
+        return Objects.equals(this.codDeMesa, other.codDeMesa);
 	}
 }

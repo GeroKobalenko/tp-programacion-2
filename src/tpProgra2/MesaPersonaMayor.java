@@ -1,83 +1,61 @@
 package tpProgra2;
 
-import java.util.Hashtable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class MesaPersonaMayor extends Mesa{
 
 	MesaPersonaMayor(Votante presDeMesa){
 		super(presDeMesa);
-		
-//		this.presDeMesa=presDeMesa;
-//		MesaPersonaMayor.codDeMesa++;
-//		this.codigoDeMesa=codDeMesa.toString();
-//		this.franjasHorarias= new Hashtable<Integer, Votante[]>();//DNI MEJOR ???
-//		this.inicializarFranjas();
 		}
 	
 	@Override
 	void asignarTurno(Votante votante) {
 		for(int i=8; i<=18 ; i++) {
-			this.franjasHorarias.get(i);
-			if(franjasHorarias.get(i).size() < 10) {}
-//				this.franjasHorarias.get(i).
-		}
-			
+			if(this.franjasHorarias.get(i).size()<9) {
+				if(!this.franjasHorarias.get(i).contains(votante))
+					this.franjasHorarias.get(i).add(votante);
+				votante.asignarTurno(this.codDeMesa, i);
+			}	
+		}		
 	}
 
 	@Override
-	public void confirmarVoto(int dni) {
-		// TODO Auto-generated method stub
-		
+	public void confirmarVoto(Votante votante) {
+		Set<Integer> franjasHorarias=this.franjasHorarias.keySet();
+		for(int franjas: franjasHorarias) {
+			if(this.franjasHorarias.get(franjas).contains(votante)) {
+				votante.votar();
+			}
+		}
 	}
 	
-	public Votante[] darVotantesEnFrajaHoraria(int franjaHoraria) {
-		return votantes;
+	@Override
+	public Votante[] darVotantesEnFranjaHoraria(int franja) {
+		return (Votante[]) this.franjasHorarias.get(franja).toArray();
 	}
 	
+	@Override
 	public int darCupoDeMesa(int franja) {
-		
+		return 20-this.franjasHorarias.get(franja).size();
 	}
 	
-	private void inicializarFranjas() {
-		for(int i=8; i<=18 ; i++)
-			this.franjasHorarias.put(i, new Votante[8]);
+	@Override	
+	public void inicializarFranjas() {
+		for(int i=8; i<18 ; i++)
+			this.franjasHorarias.put(i,new HashSet<>());
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Mesa other = (Mesa) obj;
-		return Objects.equals(this.getClass(), other.getClass());
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Mesa other = (Mesa) obj;
+        return Objects.equals(this.codDeMesa, other.codDeMesa);
 	}
-
-	@Override
-	public void inicializarFranjas() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Integer darCodigoDeMesa() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Votante[] darVotantesEnFranjaHoraria(int franja) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	void confirmarVoto(Votante votante) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }
