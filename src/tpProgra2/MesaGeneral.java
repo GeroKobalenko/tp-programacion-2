@@ -6,19 +6,15 @@ public class MesaGeneral extends Mesa{
 	private  Integer codDeMesa=0;
 
 	MesaGeneral(Votante presDeMesa){
-		this.presDeMesa=presDeMesa;
-		codDeMesa=++Mesa.codigoDeMesa;
-		this.franjasHorarias= new HashMap<Integer,Set<Votante>>(); //DNI MEJOR ???
-		this.inicializarFranjas();
-		this.franjasHorarias.get(8).add(presDeMesa);
+		super(presDeMesa);
 		}
 		
 	@Override
 	void asignarTurno(Votante votante) {
-		
 		for(int i=8; i<=18 ; i++) {
 			if(this.franjasHorarias.get(i).size()<29) {
-				this.franjasHorarias.get(i).add(votante);
+				if(!this.franjasHorarias.get(i).contains(votante))
+					this.franjasHorarias.get(i).add(votante);
 				votante.asignarTurno(this.codDeMesa, i);
 			}	
 		}		
@@ -40,11 +36,12 @@ public class MesaGeneral extends Mesa{
 	}
 	
 	public int darCupoDeMesa(int franja) {
-		return 20-this.franjasHorarias.get(franja).size();
+		return 30-this.franjasHorarias.get(franja).size();
 	}
-		
-	private void inicializarFranjas() {
-		for(int i=8; i<=18 ; i++)
+	
+	@Override	
+	public void inicializarFranjas() {
+		for(int i=8; i<18 ; i++)
 			this.franjasHorarias.put(i,new HashSet<>());
 	}
 
@@ -57,12 +54,11 @@ public class MesaGeneral extends Mesa{
 		if (getClass() != obj.getClass())
 			return false;
 		Mesa other = (Mesa) obj;
-		return Objects.equals(codigoDeMesa, other.codigoDeMesa);
+		return Objects.equals(this.codDeMesa, other.codDeMesa);
 	}
 
 	@Override
 	public Integer darCodigoDeMesa() {
 		return this.codDeMesa;
 	}
-
 }

@@ -1,45 +1,54 @@
 package tpProgra2;
 
-import java.util.Hashtable;
+import java.util.*;
 
 public class MesaPersonaTrabaja extends Mesa{
-	private static Integer codDeMesa=0;
-		
-	private int cupoDeMesa;
-
+	
 	MesaPersonaTrabaja(Votante presDeMesa){
-		this.presDeMesa=presDeMesa;
-		MesaPersonaTrabaja.codDeMesa++;
-		this.codigoDeMesa=codDeMesa.toString();
-		this.franjasHorarias= new Hashtable<Integer, Votante[]>();//DNI MEJOR ???
-		this.inicializarFranjas();
+		super(presDeMesa);
 		}
 		
 	@Override
 	void asignarTurno(Votante votante) {
-		for(int i=8; i<=18 ; i++) {
-			if(this.franjasHorarias.get(i).length<10)
-				this.franjasHorarias.get(i).
-		}
-				
+			this.franjasHorarias.get(8).add(votante);
+			votante.asignarTurno(this.codDeMesa, 8);
+		}			
+
+	@Override
+	public void confirmarVoto(Votante votante) {
+		if(this.franjasHorarias.get(8).contains(votante)) 
+			votante.votar();
+	}
+	
+	@Override	
+	public Votante[] darVotantesEnFranjaHoraria(int franja) {
+		return (Votante[]) this.franjasHorarias.get(8).toArray();
+	}
+	
+	@Override
+	public int darCupoDeMesa(int franja) {
+		return 999;
+	}
+	
+	@Override
+	public void inicializarFranjas() {
+		this.franjasHorarias.put(8,new HashSet<>());
 	}
 
 	@Override
-	public void confirmarVoto(int dni) {
-		// TODO Auto-generated method stub
-			
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mesa other = (Mesa) obj;
+		return Objects.equals(this.codDeMesa, other.codDeMesa);
 	}
-		
-	public Votante[] darVotantesEnFrajaHoraria(int franjaHoraria) {
-		return votantes;
+
+	@Override
+	public Integer darCodigoDeMesa() {
+		return this.codDeMesa;
 	}
-	
-	public String conocerHorario() {
-		
-	}
-		
-	private void inicializarFranjas() {
-		
-	}
-		
 }

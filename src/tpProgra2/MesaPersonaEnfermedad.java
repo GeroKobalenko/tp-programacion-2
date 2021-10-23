@@ -38,7 +38,8 @@ public class MesaPersonaEnfermedad extends Mesa{
 	public int darCupoDeMesa(int franja) {
 		return 20-this.franjasHorarias.get(franja).size();
 	}
-		
+	
+	@Override
 	public void inicializarFranjas() {
 		for(int i=8; i<18 ; i++)
 			this.franjasHorarias.put(i,new HashSet<>());
@@ -53,7 +54,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 		if (getClass() != obj.getClass())
 			return false;
 		Mesa other = (Mesa) obj;
-		return Objects.equals(this.getClass(), other.getClass());
+		return Objects.equals(this.codDeMesa, other.codDeMesa);
 	}
 
 	@Override
