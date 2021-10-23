@@ -3,7 +3,6 @@ package tpProgra2;
 import java.util.*;
 
 public class MesaGeneral extends Mesa{
-	private  Integer codDeMesa=0;
 
 	MesaGeneral(Votante presDeMesa){
 		super(presDeMesa);
@@ -15,7 +14,7 @@ public class MesaGeneral extends Mesa{
 			if(this.franjasHorarias.get(i).size()<29) {
 				if(!this.franjasHorarias.get(i).contains(votante))
 					this.franjasHorarias.get(i).add(votante);
-				votante.asignarTurno(this.codDeMesa, i);
+				votante.asignarTurno(this.darCodigoDeMesa(), i);
 			}	
 		}		
 	}
@@ -31,8 +30,8 @@ public class MesaGeneral extends Mesa{
 	}
 	
 	@Override	
-	public Votante[] darVotantesEnFranjaHoraria(int franja) {
-		return (Votante[]) this.franjasHorarias.get(franja).toArray();
+	public Set<Votante>  darVotantesEnFranjaHoraria(int franja) {
+		return franjasHorarias.get(franja);
 	}
 	
 	public int darCupoDeMesa(int franja) {
@@ -54,11 +53,16 @@ public class MesaGeneral extends Mesa{
 		if (getClass() != obj.getClass())
 			return false;
 		Mesa other = (Mesa) obj;
-		return Objects.equals(this.codDeMesa, other.darCodigoDeMesa());
+		return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
 	}
 
 	@Override
-	public Integer darCodigoDeMesa() {
-		return this.codDeMesa;
+	public int buscarFranjaDisponible() {
+		for(int i=8; i<=18 ; i++) {
+			if (this.franjasHorarias.get(i).size()< 19) {
+				return i;
+			}
+		}
+		return 0;
 	}
 }

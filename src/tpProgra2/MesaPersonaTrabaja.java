@@ -21,8 +21,8 @@ public class MesaPersonaTrabaja extends Mesa{
 	}
 	
 	@Override	
-	public Votante[] darVotantesEnFranjaHoraria(int franja) {
-		return (Votante[]) this.franjasHorarias.get(8).toArray();
+	public Set<Votante> darVotantesEnFranjaHoraria(int franja) {
+		return this.franjasHorarias.get(8);
 	}
 	
 	@Override
@@ -47,8 +47,9 @@ public class MesaPersonaTrabaja extends Mesa{
 		return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
 	}
 
+	
 	@Override
-	public Integer darCodigoDeMesa() {
-		return this.darCodigoDeMesa();
+	public int buscarFranjaDisponible() {
+		return this.franjasHorarias.keySet().iterator().next();
 	}
 }

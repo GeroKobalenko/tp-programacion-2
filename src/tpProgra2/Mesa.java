@@ -34,7 +34,7 @@ public abstract class Mesa{
 		return presDeMesa;
 		}
 	
-	public abstract Votante[] darVotantesEnFranjaHoraria(int franja);
+	public abstract Set<Votante> darVotantesEnFranjaHoraria(int franja);
 	
 	abstract void asignarTurno(Votante votante);
 	

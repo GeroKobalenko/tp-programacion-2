@@ -182,11 +182,12 @@ public class SistemaDeTurnos {
 				Set<Integer> franjas= this.mesas.get(i).franjasHorarias.keySet();
 
 				for(Integer hora: franjas) {
-					Votante[] votanteAux= this.mesas.get(numMesa).darVotantesEnFranjaHoraria(hora);
+					Iterator<Votante> votanteAux=this.mesas.get(i).darVotantesEnFranjaHoraria(hora).iterator();
 					List<Integer> dnis= new ArrayList<>();
-					for(int j = 0; j<votanteAux.length;j++) {
-						dnis.add(votanteAux[j].conocerDNI());
-					}
+					
+					while(votanteAux.hasNext()) 
+						dnis.add(votanteAux.next().conocerDNI());
+					
 					franjaHorariaConVotantes.put(hora, dnis);	
 				}
 				return franjaHorariaConVotantes;

@@ -60,4 +60,14 @@ public class MesaPersonaMayor extends Mesa{
         Mesa other = (Mesa) obj;
         return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
 	}
+	
+	@Override
+	public int buscarFranjaDisponible() {
+		for(int i=8; i<=18 ; i++) {
+			if (this.franjasHorarias.get(i).size()< 19) {
+				return i;
+			}
+		}
+		return 0;
+	}
 }
