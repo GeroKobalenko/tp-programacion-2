@@ -5,7 +5,6 @@ import java.util.*;
 public class MesaPersonaEnfermedad extends Mesa{
 	
 	MesaPersonaEnfermedad(Votante presDeMesa){
-
 		super(presDeMesa);
 		}
 		
@@ -35,6 +34,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 		return (Votante[]) this.franjasHorarias.get(franja).toArray();
 	}
 	
+	@Override	
 	public int darCupoDeMesa(int franja) {
 		return 20-this.franjasHorarias.get(franja).size();
 	}
