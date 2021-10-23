@@ -1,4 +1,4 @@
-package tp2021c2votacion;
+package tpProgra2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

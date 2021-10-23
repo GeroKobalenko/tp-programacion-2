@@ -1,9 +1,6 @@
 package tpProgra2;
 
-import java.io.PrintStream;
 import java.util.*;
-import java.util.function.Consumer;
-
 import javax.management.RuntimeErrorException;
 import javax.swing.JOptionPane;
 
@@ -26,11 +23,9 @@ public class SistemaDeTurnos {
 			String certificado= JOptionPane.showInputDialog("Tiene certificado de trabajo? Si o No");
 			if(certificado.compareToIgnoreCase("si")==0) {
 				this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
-				this.votantes.get(dni).agregarCertificado(true);
 			}
 			else {
 				this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
-				this.votantes.get(dni).agregarCertificado(false);
 			}
 		}
 	}
@@ -91,7 +86,6 @@ public class SistemaDeTurnos {
 		}
 		
 		else if(this.votantes.get(dni).esTrabajor()){
-			if(this.votantes.get(dni).tieneCertificado()) {
 				for(Mesa mesaPersTrabaja: this.mesas ) {
 					if(mesaPersTrabaja instanceof MesaPersonaTrabaja) {
 						mesaPersTrabaja.asignarTurno(this.votantes.get(dni));
@@ -99,20 +93,10 @@ public class SistemaDeTurnos {
 					}
 				}		
 			}
-			else if(!this.votantes.get(dni).tieneCertificado()) {
-				for(Mesa mesaGeneral: this.mesas ) {
-					if(mesaGeneral instanceof MesaGeneral) {
-						mesaGeneral.asignarTurno(this.votantes.get(dni));
-						return this.votantes.get(dni).consultarTurno();
-					}
-				}
-			}
-		}
-		
 		return null;
 	}
 	
-	public int asignarTurno() {
+	public int asignarTurnos() {
 		int turnosAsignados=0;
 		Set<Integer> votantes= this.votantes.keySet();
 		for(Integer dni: votantes) {

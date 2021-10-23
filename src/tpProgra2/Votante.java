@@ -4,12 +4,9 @@ public class Votante extends Persona {
 	
 	private boolean enfPrevia;
 	private boolean trabaja;
-	private boolean tieneCertificado;
 	private boolean esPresDeMesa;
 	private boolean yaVoto;
 	private Tupla<Integer,Integer> turno;
-	
-	
 
 	Votante(String nombre, int dni, int edad, boolean enfPrevia, boolean trabaja) {
 		super(nombre, dni, edad);
@@ -24,14 +21,6 @@ public class Votante extends Persona {
 	
 	public boolean saberSiVoto() {
 		return this.yaVoto;
-	}
-	
-	public void agregarCertificado(boolean certi) {
-		this.tieneCertificado=certi;
-	}
-	
-	public boolean tieneCertificado() {
-		return this.tieneCertificado;
 	}
 	
 	public boolean esTrabajor() {
