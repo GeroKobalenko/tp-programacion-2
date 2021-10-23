@@ -3,9 +3,13 @@ package tpProgra2;
 import java.util.*;
 
 public abstract class Mesa{
-	 protected static Integer codigoDeMesa;
+	 protected static Integer codigoDeMesa=0;
 	 protected Votante presDeMesa;
 	 protected HashMap<Integer, Set<Votante>> franjasHorarias;
+	 
+	 Mesa(){
+		 Mesa.codigoDeMesa++;
+	 }
 	
 	 public abstract Integer darCodigoDeMesa();
 	

@@ -22,6 +22,10 @@ public class Votante extends Persona {
 		this.yaVoto=true;
 	}
 	
+	public boolean saberSiVoto() {
+		return this.yaVoto;
+	}
+	
 	public void agregarCertificado(boolean certi) {
 		this.tieneCertificado=certi;
 	}

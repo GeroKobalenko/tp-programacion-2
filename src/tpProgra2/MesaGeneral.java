@@ -19,7 +19,7 @@ public class MesaGeneral extends Mesa{
 		for(int i=8; i<=18 ; i++) {
 			if(this.franjasHorarias.get(i).size()<29) {
 				this.franjasHorarias.get(i).add(votante);
-				votante.asignarTurno(this.codigoDeMesa, i);
+				votante.asignarTurno(this.codDeMesa, i);
 			}	
 		}		
 	}

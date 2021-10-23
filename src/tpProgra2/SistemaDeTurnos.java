@@ -2,6 +2,7 @@ package tpProgra2;
 
 import java.io.PrintStream;
 import java.util.*;
+import java.util.function.Consumer;
 
 import javax.swing.JOptionPane;
 
@@ -30,76 +31,121 @@ public class SistemaDeTurnos {
 				this.votantes.get(dni).agregarCertificado(false);
 			}
 		}
-		
 	}
 	
 	public int agregarMesa(String tipoMesa,int dni) {
 		
-		Mesa mesa= new MesaGeneral(this.votantes.get(dni));
-		this.mesas.add(mesa);
-		return mesa.codigoDeMesa;
+		if(tipoMesa.compareTo("Mayor65")==0) {
+			Mesa mesaMayorAxu= new MesaPersonaMayor(this.votantes.get(dni));
+			this.mesas.add(mesaMayorAxu);
+			return mesaMayorAxu.darCodigoDeMesa();
+		}
+		else if(tipoMesa.compareTo("Enf_Preex")==0) {
+			Mesa mesaEnfermaAxu= new MesaPersonaEnfermedad(this.votantes.get(dni));
+			this.mesas.add(mesaEnfermaAxu);
+			return mesaEnfermaAxu.darCodigoDeMesa();
+		}
+		else if(tipoMesa.compareTo("General")==0) {
+			Mesa mesaGeneralAxu= new MesaGeneral(this.votantes.get(dni));
+			this.mesas.add(mesaGeneralAxu);
+			return mesaGeneralAxu.darCodigoDeMesa();
+		}
+		else {
+			Mesa mesaTrabajadorAxu= new MesaPersonaTrabaja(this.votantes.get(dni));
+			this.mesas.add(mesaTrabajadorAxu);
+			return mesaTrabajadorAxu.darCodigoDeMesa();
+		}
 		
 	}
 	
 	public Tupla<Integer,Integer> asignarTurno(int dni){
 		if(!this.votantes.containsKey(dni))
 			throw new RuntimeException();
-		if(!this.votantes.get(dni).consultarTurno().getX().equals(null)){
+		
+		if(!this.votantes.get(dni).consultarTurno().getX().equals(null))
 			return this.votantes.get(dni).consultarTurno();
-		}
+		
 		if(this.votantes.get(dni).tieneEnfPrevia()) {
-			Mesa mesaPersonaEnferma= new MesaPersonaEnfermedad(null);
 			for(Mesa mesaPersEnferma: this.mesas ) {
-				if(mesaPersEnferma.equals(mesaPersonaEnferma)) {
+				if(mesaPersEnferma instanceof MesaPersonaEnfermedad) {
 					mesaPersEnferma.asignarTurno(this.votantes.get(dni));
+					return this.votantes.get(dni).consultarTurno();
 				}		
 			}
 		}
+		
+		else if(this.votantes.get(dni).conocerEdad()>64) {
+			for(Mesa mesaPersMayor: this.mesas ) {
+				if(mesaPersMayor instanceof MesaPersonaMayor) {
+					mesaPersMayor.asignarTurno(this.votantes.get(dni));
+					return this.votantes.get(dni).consultarTurno();
+				}
+			}
+		}
+		
 		else if(this.votantes.get(dni).esTrabajor()){
-			Mesa mesaTrabajadores= new MesaPersonaTrabaja(null);
-			for(Mesa mesaPersTrabaja: this.mesas ) {
-				mesaPersTrabaja.getClass().equals(mesaTrabajadores.getClass());
-				if(mesaPersTrabaja.equals(mesaTrabajadores)) {
-					mesaPersTrabaja.asignarTurno(this.votantes.get(dni));
-					
+			if(this.votantes.get(dni).tieneCertificado()) {
+				for(Mesa mesaPersTrabaja: this.mesas ) {
+					if(mesaPersTrabaja instanceof MesaPersonaTrabaja) {
+						mesaPersTrabaja.asignarTurno(this.votantes.get(dni));
+						return this.votantes.get(dni).consultarTurno();
+					}
 				}		
 			}
+			else if(!this.votantes.get(dni).tieneCertificado()) {
+				for(Mesa mesaGeneral: this.mesas ) {
+					if(mesaGeneral instanceof MesaGeneral) {
+						mesaGeneral.asignarTurno(this.votantes.get(dni));
+						return this.votantes.get(dni).consultarTurno();
+					}
+				}
+			}
 		}
+		
 		return null;
 	}
 	
 	public int asignarTurno() {
-		/* Hace efectivo el voto del votante determinado por su DNI.
-		* Si el DNI no está registrado entre los votantes debe generar una excepción
-		* Si ya había votado devuelve false.
-		* Si no, efectúa el voto y devuelve true.
-		*/
+		int turnosAsignados=0;
+		Set<Integer> votantes= this.votantes.keySet();
+		for(Integer dni: votantes) {
+			if(!this.asignarTurno(dni).equals(null)) {
+				turnosAsignados++;
+			}
+		}
+		return turnosAsignados;
 	}
-	
-	public int votantesConTurno(String tipoMesa) {
-		/* Asigna turnos automáticamente a los votantes sin turno.
-		* El sistema busca si hay alguna mesa y franja horaria factible en la que haya disponibilidad.
-		* Devuelve la cantidad de turnos que pudo asignar.
-		*/
-	}
-	
 	
 	public boolean votar(int dni) {
-		/* Hace efectivo el voto del votante determinado por su DNI.
-		* Si el DNI no está registrado entre los votantes debe generar una excepción
-		* Si ya había votado devuelve false.
-		* Si no, efectúa el voto y devuelve true.
-		*/
+		if(!this.votantes.containsKey(dni))
+			throw new RuntimeException();
+			
+		else if(this.votantes.get(dni).saberSiVoto())
+			return false;
+		
+		else {
+			this.votantes.get(dni).votar();
+			return true;
+		}
 	}
 	
 	
 	public int votantesConTurno(String tipoMesa) {
-		/*
-		* Cantidad de votantes con Turno asignados al tipo de mesa que se pide.
-		* - Permite conocer cuántos votantes se asignaron hasta el momento a alguno
-		* de los tipos de mesa que componen el sistema de votación.
-		* - Si la clase de mesa solicitada no es válida debe generar una excepción
-		*/
+		
+		if(tipoMesa.compareTo("Mayor65")==0) {
+			Iterator<Mesa> mesasAux= this.mesas.iterator();
+			
+		}
+		else if(tipoMesa.compareTo("Enf_Preex")==0) {
+			
+		}
+		else if(tipoMesa.compareTo("General")==0) {
+			
+		}
+		else {
+			
+		}
+		
 	}
 	
 	
@@ -109,12 +155,20 @@ public class SistemaDeTurnos {
 	
 	
 	public Map<Integer,List< Integer>> asignadosAMesa(int numMesa){
-		/* Dado un número de mesa, devuelve una Map cuya clave es la franja horaria y
-		* el valor es una lista con los DNI de los votantes asignados a esa franja.
-		* Sin importar si se presentaron o no a votar.
-		* - Si el número de mesa no es válido genera una excepción.
-		* - Si no hay asignados devuelve null.
-		*/
+		
+		Map<Integer, List<Integer>> franjaHorariaConVotantes = new HashMap<Integer,List<Integer>>();
+		Set<Integer> franjas= this.mesas.get(numMesa).franjasHorarias.keySet();
+		
+		for(Integer hora: franjas) {
+			Votante[] votanteAux= this.mesas.get(numMesa).darVotantesEnFranjaHoraria(hora);
+			List<Integer> dnis= new ArrayList<>();
+			for(int i = 0; i<votanteAux.length;i++) {
+				dnis.add(votanteAux[i].conocerDNI());
+			}
+			franjaHorariaConVotantes.put(hora, dnis);
+		}
+		
+		return franjaHorariaConVotantes;
 	}
 
 	public List<Tupla<String, Integer>> sinTurnoSegunTipoMesa(){

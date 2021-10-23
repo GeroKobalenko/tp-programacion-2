@@ -3,11 +3,12 @@ package tpProgra2;
 import java.util.*;
 
 public class MesaPersonaEnfermedad extends Mesa{
-	private int codDeMesa=0;
+	private int codDeMesa;
 
 	MesaPersonaEnfermedad(Votante presDeMesa){
+		super();
 		this.presDeMesa=presDeMesa;
-		this.codDeMesa=++Mesa.codigoDeMesa;
+		this.codDeMesa=Mesa.codigoDeMesa;
 		this.franjasHorarias= new HashMap<Integer,Set<Votante>>(); //DNI MEJOR ???
 		this.inicializarFranjas();
 		}
