@@ -180,14 +180,24 @@ public class SistemaDeTurnos {
 		
 		Map<Integer,List< Integer>> votantesAsignadosAmesa = new HashMap<Integer, List<Integer>>();
 		List<Integer> dnis= new ArrayList<>();
-			
-		for(int i=0; i<this.mesas.size();i++) {
-			if(this.mesas.get(i).darCodigoDeMesa()==numMesa) {
-				for(int j=8;j<18;j++) 
-					for(int k=0;k<this.mesas.get(numMesa).franjasHorarias.get(j).size();k++)	
-						dnis.add(this.mesas.get(numMesa).franjasHorarias.get(j).get(k).conocerDNI());
+
+		//Buscar mesa
+		int numDeMesaBuscado=0;
+		boolean bandera= true;
+		while(bandera && numDeMesaBuscado<this.mesas.size()){
+			if(this.mesas.get(numDeMesaBuscado).darCodigoDeMesa()==numMesa){
+				bandera=false;
+			}
+			else{
+				numDeMesaBuscado++;
 			}
 		}
+
+		//buscar votantes en mesa
+		if(!bandera){
+			
+		}
+
 		return votantesAsignadosAmesa;
 	}
 	
