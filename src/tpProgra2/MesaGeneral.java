@@ -8,16 +8,14 @@ public class MesaGeneral extends Mesa{
 		super(presDeMesa);
 		}
 		
-	@Override
-	void asignarTurno(Votante votante) {
-		for(int i=8; i<=18 ; i++) {
-			if(this.franjasHorarias.get(i).size()<29) {
-				if(!this.franjasHorarias.get(i).contains(votante))
-					this.franjasHorarias.get(i).add(votante);
-				votante.asignarTurno(this.darCodigoDeMesa(), i);
-			}	
-		}		
-	}
+		@Override
+		void asignarTurno(Votante votante) {
+			int keyFranja = buscarFranjaDisponible();
+			if(keyFranja!=0){
+				this.franjasHorarias.get(keyFranja).add(votante);
+				votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
+			}
+		}
 
 	@Override
 	public void confirmarVoto(Votante votante) {

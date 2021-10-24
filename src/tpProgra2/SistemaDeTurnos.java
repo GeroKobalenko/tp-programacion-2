@@ -60,7 +60,7 @@ public class SistemaDeTurnos {
 		if(!this.votantes.containsKey(dni))
 			throw new RuntimeException();
 		
-		if(!(this.votantes.get(dni).consultarTurno().getX()==null))
+		if(!this.votantes.get(dni).tieneTurnoAsignado())
 			return this.votantes.get(dni).consultarTurno();
 		
 		if(this.votantes.get(dni).tieneEnfPrevia()) {
@@ -100,12 +100,13 @@ public class SistemaDeTurnos {
 		int turnosAsignados=0;
 		Set<Integer> votantes= this.votantes.keySet();
 		for(Integer dni: votantes) {
-			if(!(this.asignarTurno(dni)==null)) {
+			this.asignarTurno(dni);
+			if(this.votantes.get(dni).tieneTurnoAsignado()) 
 				turnosAsignados++;
-			}
 		}
-		return turnosAsignados;
+	return turnosAsignados;
 	}
+
 	public boolean votar(int dni) {
 		if(!this.votantes.containsKey(dni))
 			throw new RuntimeException();
@@ -176,9 +177,8 @@ public class SistemaDeTurnos {
 	}
 	
 	
-	public Map<Integer,List< Integer>> asignadosAMesa(int numMesa){
-		
-		Map<Integer,List< Integer>> votantesAsignadosAmesa = new HashMap<Integer, List<Integer>>();
+	public Map<Integer,List< Integer>> asignadosAMesa(int numMesa){	
+		Map<Integer,List<Integer>> votantesAsignadosAmesa = new HashMap<Integer, List<Integer>>();
 		List<Integer> dnis= new ArrayList<>();
 
 		//Buscar mesa
@@ -193,9 +193,16 @@ public class SistemaDeTurnos {
 			}
 		}
 
+		Mesa mesaAux= this.mesas.get(numDeMesaBuscado);
+		Set<Integer> franjasHorarias= mesaAux.franjasHorarias.keySet();
 		//buscar votantes en mesa
 		if(!bandera){
-			
+			for (Integer franja : franjasHorarias) {
+				for (int i = 0; i < mesaAux.franjasHorarias.get(franja).size(); i++) {
+					dnis.add(mesaAux.franjasHorarias.get(franja).get(i).conocerDNI());
+				}
+				votantesAsignadosAmesa.put(franja, dnis);
+			}
 		}
 
 		return votantesAsignadosAmesa;
@@ -212,7 +219,7 @@ public class SistemaDeTurnos {
 		int contMesaPersonaMayor=0;
 		int contMesaGeneral=0;
 		for (Integer dni : dnis) {
-			if(this.votantes.get(dni).consultarTurno().getX()==null){
+			if(!this.votantes.get(dni).tieneTurnoAsignado()){
 				if(this.votantes.get(dni).esTrabajor())
 					contMesaTrabajadores++;
 				else if(this.votantes.get(dni).tieneEnfPrevia())

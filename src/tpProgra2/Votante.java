@@ -8,11 +8,11 @@ public class Votante extends Persona {
 	private boolean yaVoto;
 	private Tupla<Integer,Integer> turno;
 
+
 	Votante(String nombre, int dni, int edad, boolean enfPrevia, boolean trabaja) {
 		super(nombre, dni, edad);
 		this.enfPrevia=enfPrevia;
 		this.trabaja=trabaja;
-		this.turno=new Tupla<Integer, Integer>(null,null);
 	}
 	
 	public void votar(){
@@ -47,4 +47,7 @@ public class Votante extends Persona {
 		return this.turno;
 	}
 	
+	public boolean tieneTurnoAsignado(){
+		return this.turno!=null;
+	}
 }

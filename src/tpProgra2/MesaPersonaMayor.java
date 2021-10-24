@@ -15,8 +15,10 @@ public class MesaPersonaMayor extends Mesa{
 	@Override
 	void asignarTurno(Votante votante) {
 		int keyFranja = buscarFranjaDisponible();
-		if(keyFranja!=0)
-			this.franjasHorarias.get(keyFranja).add(votante);	
+		if(keyFranja!=0){
+			this.franjasHorarias.get(keyFranja).add(votante);
+			votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
+		}
 	}
 
 	@Override

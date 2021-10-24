@@ -20,6 +20,7 @@ public abstract class Mesa implements Iterable<Mesa>{
 		 Mesa.contadorCodigo++;
 		 codDeMesa = contadorCodigo;
 		 inicializarFranjas();
+		 asignarTurno(presDeMesa);
 	 }
 	 
 	public abstract void inicializarFranjas();
