@@ -40,8 +40,7 @@ public class Votante extends Persona {
 	}
 	
 	public void asignarTurno(Integer codDeMesa, Integer franja) {
-		this.turno.setX(codDeMesa);
-		this.turno.setY(franja);
+		this.turno=new Tupla<Integer, Integer>(codDeMesa,franja);
 	}
 	
 	public Tupla<Integer, Integer> consultarTurno() {

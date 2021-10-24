@@ -11,13 +11,14 @@ public class MesaPersonaEnfermedad extends Mesa{
 	@Override
 	void asignarTurno(Votante votante) {
 		int keyFranja = buscarFranjaDisponible();
-		this.franjasHorarias.get(keyFranja).add(votante);	
+		if(keyFranja!=0)
+			this.franjasHorarias.get(keyFranja).add(votante);	
 	}
 	
 	@Override
 	public int buscarFranjaDisponible() {
-		for(int i=8; i<=18 ; i++) {
-			if (this.franjasHorarias.get(i).size()< 19) {
+		for(int i=8; i<18 ; i++) {
+			if (this.franjasHorarias.get(i).size()< 20) {
 				return i;
 			}
 		}
@@ -35,7 +36,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 	}
 	
 	@Override	
-	public Set<Votante> darVotantesEnFranjaHoraria(int franja) {
+	public ArrayList<Votante> darVotantesEnFranjaHoraria(int franja) {
 		return this.franjasHorarias.get(franja);
 	}
 	
@@ -47,7 +48,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 	@Override
 	public void inicializarFranjas() {
 		for(int i=8; i<18 ; i++)
-			this.franjasHorarias.put(i,new HashSet<>());
+			this.franjasHorarias.put(i,new ArrayList<>());
 	}
 
 	@Override
@@ -60,6 +61,12 @@ public class MesaPersonaEnfermedad extends Mesa{
 			return false;
 		Mesa other = (Mesa) obj;
 		return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
+	}
+
+	@Override
+	public Iterator<Mesa> iterator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

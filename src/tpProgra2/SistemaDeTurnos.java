@@ -1,6 +1,8 @@
 package tpProgra2;
 
 import java.util.*;
+import java.util.Map.Entry;
+
 import javax.management.RuntimeErrorException;
 
 public class SistemaDeTurnos {
@@ -175,57 +177,54 @@ public class SistemaDeTurnos {
 	
 	
 	public Map<Integer,List< Integer>> asignadosAMesa(int numMesa){
-
-		for (int i = 0; i < this.mesas.size(); i++) {
-			if(this.mesas.get(i).darCodigoDeMesa()==numMesa){
-				Map<Integer, List<Integer>> franjaHorariaConVotantes = new HashMap<Integer,List<Integer>>();
-				Set<Integer> franjas= this.mesas.get(i).franjasHorarias.keySet();
-
-				for(Integer hora: franjas) {
-					Iterator<Votante> votanteAux=this.mesas.get(i).darVotantesEnFranjaHoraria(hora).iterator();
-					List<Integer> dnis= new ArrayList<>();
-					
-					while(votanteAux.hasNext()) 
-						dnis.add(votanteAux.next().conocerDNI());
-					
-					franjaHorariaConVotantes.put(hora, dnis);	
-				}
-				return franjaHorariaConVotantes;
+		
+		Map<Integer,List< Integer>> votantesAsignadosAmesa = new HashMap<Integer, List<Integer>>();
+		List<Integer> dnis= new ArrayList<>();
+			
+		for(int i=0; i<this.mesas.size();i++) {
+			if(this.mesas.get(i).darCodigoDeMesa()==numMesa) {
+				for(int j=8;j<18;j++) 
+					for(int k=0;k<this.mesas.get(numMesa).franjasHorarias.get(j).size();k++)	
+						dnis.add(this.mesas.get(numMesa).franjasHorarias.get(j).get(k).conocerDNI());
 			}
 		}
-
-		throw new RuntimeErrorException(null,"Codigo de mesa no valido");	
+		return votantesAsignadosAmesa;
 	}
+	
 
 	public List<Tupla<String, Integer>> sinTurnoSegunTipoMesa(){
 
 		List<Tupla<String,Integer>> votantesSinTurno = new ArrayList<Tupla<String,Integer>>();
-
-		Tupla<String,Integer> mesaEnfermedades= new Tupla<String,Integer>("MesaEnfermedades", 0);
-		
-		Tupla<String,Integer> mesaPersonaMayor= new Tupla<String,Integer>("MesaPersonaMayor", 0);
-		
-		Tupla<String,Integer> mesaTrabajadores= new Tupla<String,Integer>("MesaTrabajadores", 0);
-		
-		Tupla<String,Integer> mesaGeneral= new Tupla<String,Integer>("MesaGeneral", 0);
 	
 		Set<Integer> dnis= this.votantes.keySet();
+		int contMesaEnfPrevia=0;
+		int contMesaTrabajadores=0;
+		int contMesaPersonaMayor=0;
+		int contMesaGeneral=0;
 		for (Integer dni : dnis) {
-			if(this.votantes.get(dni).consultarTurno().getX().equals(null)){
-				if(this.votantes.get(dni).esTrabajor()){
-					mesaTrabajadores.setY(mesaTrabajadores.getY()+1);
-				}
-				else if(this.votantes.get(dni).tieneEnfPrevia()){
-					mesaEnfermedades.setY(mesaEnfermedades.getY()+1);
-				}
-				else if(this.votantes.get(dni).conocerEdad()>64){
-					mesaPersonaMayor.setY(mesaPersonaMayor.getY()+1);
-				}
+			if(this.votantes.get(dni).consultarTurno().getX()==null){
+				if(this.votantes.get(dni).esTrabajor())
+					contMesaTrabajadores++;
+				else if(this.votantes.get(dni).tieneEnfPrevia())
+					contMesaEnfPrevia++;
+				else if(this.votantes.get(dni).conocerEdad()>64)
+					contMesaPersonaMayor++;
 				else{
-					mesaGeneral.setY(mesaGeneral.getY()+1);
+					contMesaGeneral++;
 				}
 			}
 		}
+		
+		Tupla<String,Integer> mesaEnfermedades= new Tupla<String,Integer>("MesaEnfermedades", contMesaEnfPrevia);
+		
+		Tupla<String,Integer> mesaPersonaMayor= new Tupla<String,Integer>("MesaPersonaMayor", contMesaPersonaMayor);
+		
+		Tupla<String,Integer> mesaTrabajadores= new Tupla<String,Integer>("MesaTrabajadores", contMesaTrabajadores);
+		
+		Tupla<String,Integer> mesaGeneral= new Tupla<String,Integer>("MesaGeneral", contMesaGeneral);
+		
+		
+		
 		votantesSinTurno.add(mesaEnfermedades); votantesSinTurno.add(mesaPersonaMayor);
 		votantesSinTurno.add(mesaTrabajadores); votantesSinTurno.add(mesaGeneral);
 

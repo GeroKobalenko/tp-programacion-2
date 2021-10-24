@@ -21,7 +21,7 @@ public class MesaPersonaTrabaja extends Mesa{
 	}
 	
 	@Override	
-	public Set<Votante> darVotantesEnFranjaHoraria(int franja) {
+	public ArrayList<Votante> darVotantesEnFranjaHoraria(int franja) {
 		return this.franjasHorarias.get(8);
 	}
 	
@@ -32,7 +32,7 @@ public class MesaPersonaTrabaja extends Mesa{
 	
 	@Override
 	public void inicializarFranjas() {
-		this.franjasHorarias.put(8,new HashSet<>());
+		this.franjasHorarias.put(8,new ArrayList<>());
 	}
 
 	@Override
@@ -51,5 +51,11 @@ public class MesaPersonaTrabaja extends Mesa{
 	@Override
 	public int buscarFranjaDisponible() {
 		return this.franjasHorarias.keySet().iterator().next();
+	}
+
+	@Override
+	public Iterator<Mesa> iterator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

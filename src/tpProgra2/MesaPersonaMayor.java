@@ -1,6 +1,8 @@
 package tpProgra2;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,15 +14,9 @@ public class MesaPersonaMayor extends Mesa{
 	
 	@Override
 	void asignarTurno(Votante votante) {
-		for(int i=8; i<18 ; i++) {
-			if(this.franjasHorarias.get(i).size()<10) {
-				if(!this.franjasHorarias.get(i).contains(votante)) {
-					this.franjasHorarias.get(i).add(votante);
-					votante.asignarTurno(this.darCodigoDeMesa(), i);
-					break;
-				}
-			}	
-		}		
+		int keyFranja = buscarFranjaDisponible();
+		if(keyFranja!=0)
+			this.franjasHorarias.get(keyFranja).add(votante);	
 	}
 
 	@Override
@@ -34,8 +30,8 @@ public class MesaPersonaMayor extends Mesa{
 	}
 	
 	@Override
-	public Votante[] darVotantesEnFranjaHoraria(int franja) {
-		return (Votante[]) this.franjasHorarias.get(franja).toArray();
+	public ArrayList<Votante> darVotantesEnFranjaHoraria(int franja) {
+		return this.franjasHorarias.get(franja);
 	}
 	
 	@Override
@@ -46,7 +42,7 @@ public class MesaPersonaMayor extends Mesa{
 	@Override	
 	public void inicializarFranjas() {
 		for(int i=8; i<18 ; i++)
-			this.franjasHorarias.put(i,new HashSet<>());
+			this.franjasHorarias.put(i,new ArrayList<>());
 	}
 	
 	@Override
@@ -63,11 +59,17 @@ public class MesaPersonaMayor extends Mesa{
 	
 	@Override
 	public int buscarFranjaDisponible() {
-		for(int i=8; i<=18 ; i++) {
-			if (this.franjasHorarias.get(i).size()< 19) {
+		for(int i=8; i<18 ; i++) {
+			if (this.franjasHorarias.get(i).size()<9) {
 				return i;
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public Iterator<Mesa> iterator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

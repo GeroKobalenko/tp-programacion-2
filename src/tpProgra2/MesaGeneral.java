@@ -30,7 +30,7 @@ public class MesaGeneral extends Mesa{
 	}
 	
 	@Override	
-	public Set<Votante>  darVotantesEnFranjaHoraria(int franja) {
+	public ArrayList<Votante>  darVotantesEnFranjaHoraria(int franja) {
 		return franjasHorarias.get(franja);
 	}
 	
@@ -41,7 +41,7 @@ public class MesaGeneral extends Mesa{
 	@Override	
 	public void inicializarFranjas() {
 		for(int i=8; i<18 ; i++)
-			this.franjasHorarias.put(i,new HashSet<>());
+			this.franjasHorarias.put(i,new ArrayList<>());
 	}
 
 	@Override
@@ -64,5 +64,11 @@ public class MesaGeneral extends Mesa{
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public Iterator<Mesa> iterator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
