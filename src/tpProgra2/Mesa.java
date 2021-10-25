@@ -8,6 +8,7 @@ public abstract class Mesa {
 	 private int codDeMesa;
 	 protected Votante presDeMesa;
 	 protected HashMap<Integer, ArrayList<Votante>> franjasHorarias;
+	 private StringBuilder toString= new StringBuilder();
 	 
 	 Mesa(Votante presidenteDeMesa){
 		 presidenteDeMesa.asignarPresDeMesa(true);
@@ -40,5 +41,12 @@ public abstract class Mesa {
 	abstract void confirmarVoto(Votante votante);
 
 	public abstract boolean equals(Object obj);
-	
+
+
+	@Override
+	public String toString() {
+		return this.toString.append(this.getClass()).append(" Presidente de mesa: ").
+		append(presDeMesa.conocerNombre()).toString();
+	}
+
 }

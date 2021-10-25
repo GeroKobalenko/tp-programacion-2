@@ -1,8 +1,6 @@
 package tpProgra2;
 
 import java.util.*;
-import java.util.Map.Entry;
-
 import javax.management.RuntimeErrorException;
 
 public class SistemaDeTurnos {
@@ -10,6 +8,7 @@ public class SistemaDeTurnos {
 	private HashMap<Integer,Votante> votantes;
 //	private LinkedList<Mesa> mesas;
 	private ArrayList<Mesa> mesas;
+	private StringBuilder toString= new StringBuilder();
 	
 	public SistemaDeTurnos(String nombreSistema) {
 		if(nombreSistema == null) throw new RuntimeException("No ha proporcionado un nombre.");
@@ -25,8 +24,9 @@ public class SistemaDeTurnos {
 		this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
 	}
 	
+	
 	public int agregarMesa(String tipoMesa,int dni) {
-		
+
 		if(!this.votantes.containsKey(dni)) throw new RuntimeErrorException(null,"El presidente de mesa no esta registrado en el sistema.");
 		
 		if (this.votantes.get(dni).tieneTurnoAsignado()) throw new RuntimeErrorException(null,"El presidente de mesa ya tiene un turno asignado.");
@@ -126,10 +126,6 @@ public class SistemaDeTurnos {
 //					}
 //				}		
 //			}
-	}
-	
-	public int asignarTurno() {
-		return asignarTurnos();
 	}
 	
 	public int asignarTurnos() {
@@ -259,5 +255,37 @@ public class SistemaDeTurnos {
 
 		return votantesSinTurno;
 	}	
-	
+
+	@Override
+	public String toString() {
+		StringBuilder turnoDeVotantes= new StringBuilder();
+		Collection<Votante> votantesAux= this.votantes.values();
+
+		for (Votante votanteAux : votantesAux) {
+			if(votanteAux.tieneTurnoAsignado()){
+				turnoDeVotantes.append("Nombre: ").append(votanteAux.conocerNombre()).
+				append(", turno: ").append(votanteAux.toString()).append(votanteAux.saberSiVoto()?"Ya voto":"Sin votar").append("\n");
+			}
+		}
+		
+		return this.toString.append(this.nombreSistema).append("\n").append("\n").
+		
+		append("Cantidad de votantes en espera de  asignacion de turno: ").append("\n").append("\n").
+		append(this.sinTurnoSegunTipoMesa().get(0).getX()).append(",votantes sin turno: ").
+		append(this.sinTurnoSegunTipoMesa().get(0).getY()).append("\n").
+		append(this.sinTurnoSegunTipoMesa().get(1).getX()).append(",votantes sin turno: ").
+		append(this.sinTurnoSegunTipoMesa().get(1).getY()).append("\n").
+		append(this.sinTurnoSegunTipoMesa().get(2).getX()).append(",votantes sin turno: ").
+		append(this.sinTurnoSegunTipoMesa().get(2).getY()).append("\n").
+		append(this.sinTurnoSegunTipoMesa().get(3).getX()).append(",votantes sin turno: ").
+		append(this.sinTurnoSegunTipoMesa().get(3).getY()).append("\n").
+
+
+		append("\n").append("Turnos de votantes: ").append("\n").append("\n").
+		append(turnoDeVotantes).append("\n").
+		
+
+
+		append("Mesas habilitadas en el sistema: ").append("\n").append(mesas.toString()).toString();
+	}
 }

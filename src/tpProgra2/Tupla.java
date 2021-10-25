@@ -19,7 +19,8 @@ public class Tupla<X, Y> {
 
 	@Override
 	public String toString() {
-		return "{" + " Codigo de mesa='" + getX() + "'" + ", Franja horaria='" + getY() + "'" + "}";
+		return new StringBuilder("Codigo de mesa=").append(getX()).
+		append(", Franja Horaria=").append(getY()).toString();
 	}
 
 }
