@@ -2,19 +2,15 @@ package tpProgra2;
 
 import java.util.*;
 
-public abstract class Mesa implements Iterable<Mesa>{
+public abstract class Mesa {
 	
 	 private static Integer contadorCodigo=0;
 	 private int codDeMesa;
 	 protected Votante presDeMesa;
 	 protected HashMap<Integer, ArrayList<Votante>> franjasHorarias;
 	 
-	 //Ver si quitar
-//	 Mesa(){
-//		 Mesa.contadorCodigo++;
-//	 }
-	 
 	 Mesa(Votante presidenteDeMesa){
+		 presidenteDeMesa.asignarPresDeMesa(true);
 		 presDeMesa = presidenteDeMesa;
 		 this.franjasHorarias= new HashMap<Integer,ArrayList<Votante>>();
 		 Mesa.contadorCodigo++;
@@ -37,7 +33,7 @@ public abstract class Mesa implements Iterable<Mesa>{
 	
 	public abstract ArrayList<Votante> darVotantesEnFranjaHoraria(int franja);
 	
-	abstract void asignarTurno(Votante votante);
+	abstract boolean asignarTurno(Votante votante);
 	
 	public abstract int darCupoDeMesa(int franja);
 	

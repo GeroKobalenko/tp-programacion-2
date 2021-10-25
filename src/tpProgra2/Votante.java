@@ -23,7 +23,7 @@ public class Votante extends Persona {
 		return this.yaVoto;
 	}
 	
-	public boolean esTrabajor() {
+	public boolean esTrabajador() {
 		return this.trabaja;
 	}
 	
@@ -40,7 +40,7 @@ public class Votante extends Persona {
 	}
 	
 	public void asignarTurno(Integer codDeMesa, Integer franja) {
-		this.turno=new Tupla<Integer, Integer>(codDeMesa,franja);
+		this.turno= new Tupla<Integer, Integer>(codDeMesa,franja);
 	}
 	
 	public Tupla<Integer, Integer> consultarTurno() {

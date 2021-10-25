@@ -12,84 +12,120 @@ public class SistemaDeTurnos {
 	private ArrayList<Mesa> mesas;
 	
 	public SistemaDeTurnos(String nombreSistema) {
-		if(nombreSistema.equals(null))
-			throw new RuntimeException();
+		if(nombreSistema == null) throw new RuntimeException("No ha proporcionado un nombre.");
 		this.nombreSistema=nombreSistema;
 		this.votantes= new HashMap<>();
 		this.mesas=new ArrayList<>();
 	}
 	
 	public void registrarVotante(int dni, String nombre, int edad, boolean enfPrevia, boolean trabaja) {
-		if(edad<16)
-			throw new RuntimeException();
+		
+		if(edad<16) throw new RuntimeException("La edad no es valida para votar.");
 	
 		this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
 	}
 	
 	public int agregarMesa(String tipoMesa,int dni) {
-		if(!this.votantes.containsKey(dni))
-			throw new RuntimeErrorException(null,"El presidente de mesa no esta registrado en el sistema");
+		
+		if(!this.votantes.containsKey(dni)) throw new RuntimeErrorException(null,"El presidente de mesa no esta registrado en el sistema.");
+		
+		if (this.votantes.get(dni).tieneTurnoAsignado()) throw new RuntimeErrorException(null,"El presidente de mesa ya tiene un turno asignado.");
 		
 		if(tipoMesa.compareTo("Mayor65")==0) {
-			Mesa mesaMayorAxu= new MesaPersonaMayor(this.votantes.get(dni));
-			this.mesas.add(mesaMayorAxu);
-			return mesaMayorAxu.darCodigoDeMesa();
+			Mesa mesaMayorAux= new MesaPersonaMayor(this.votantes.get(dni));
+			this.mesas.add(mesaMayorAux);
+			return mesaMayorAux.darCodigoDeMesa();
 		}
 		else if(tipoMesa.compareTo("Enf_Preex")==0) {
-			Mesa mesaEnfermaAxu= new MesaPersonaEnfermedad(this.votantes.get(dni));
-			this.mesas.add(mesaEnfermaAxu);
-			return mesaEnfermaAxu.darCodigoDeMesa();
+			Mesa mesaEnfermaAux= new MesaPersonaEnfermedad(this.votantes.get(dni));
+			this.mesas.add(mesaEnfermaAux);
+			return mesaEnfermaAux.darCodigoDeMesa();
 		}
 		else if(tipoMesa.compareTo("General")==0) {
-			Mesa mesaGeneralAxu= new MesaGeneral(this.votantes.get(dni));
-			this.mesas.add(mesaGeneralAxu);
-			return mesaGeneralAxu.darCodigoDeMesa();
+			Mesa mesaGeneralAux= new MesaGeneral(this.votantes.get(dni));
+			this.mesas.add(mesaGeneralAux);
+			return mesaGeneralAux.darCodigoDeMesa();
 		}
 		else if (tipoMesa.compareTo("Trabajador")==0) {
-			Mesa mesaTrabajadorAxu= new MesaPersonaTrabaja(this.votantes.get(dni));
-			this.mesas.add(mesaTrabajadorAxu);
-			return mesaTrabajadorAxu.darCodigoDeMesa();
+			Mesa mesaTrabajadorAux= new MesaPersonaTrabaja(this.votantes.get(dni));
+			this.mesas.add(mesaTrabajadorAux);
+			return mesaTrabajadorAux.darCodigoDeMesa();
 		}
 		else{
-			throw new RuntimeErrorException(null,"TIpo de mesa no valido");
+			throw new RuntimeErrorException(null,"Tipo de mesa no valido");
 		}
 		
 	}
 	
 	public Tupla<Integer,Integer> asignarTurno(int dni){
-		if(!this.votantes.containsKey(dni))
-			throw new RuntimeException();
 		
-		if(!this.votantes.get(dni).tieneTurnoAsignado())
-			return this.votantes.get(dni).consultarTurno();
+		//La uso solo en caso de las personas mayores y enfermas.
+		boolean flag = false;
 		
-		if(this.votantes.get(dni).tieneEnfPrevia()) {
-			for(Mesa mesaPersEnferma: this.mesas ) {
-				if(mesaPersEnferma instanceof MesaPersonaEnfermedad) {
-					mesaPersEnferma.asignarTurno(this.votantes.get(dni));
-					return this.votantes.get(dni).consultarTurno();
-				}		
+		if(!this.votantes.containsKey(dni)) throw new RuntimeException("El DNI no pertenece a ningun votante registrado.");
+		
+		//Preguntar a los profes, descomentar para que funquen todos los test!
+//		if(this.votantes.get(dni).tieneTurnoAsignado()) return null;
+		if(this.votantes.get(dni).tieneTurnoAsignado()) return this.votantes.get(dni).consultarTurno();
+		
+		for (Mesa mesa : this.mesas) {
+			if (this.votantes.get(dni).esTrabajador() && mesa instanceof MesaPersonaTrabaja) {
+				flag = mesa.asignarTurno(this.votantes.get(dni));
+			}
+			//Trato en especifico el caso que sea mayor y tenga enfermedad.
+			else if (this.votantes.get(dni).conocerEdad()>64 && this.votantes.get(dni).tieneEnfPrevia()) {
+				if (mesa instanceof MesaPersonaEnfermedad) flag = mesa.asignarTurno(this.votantes.get(dni));
+				if (!flag && mesa instanceof MesaPersonaMayor) flag = mesa.asignarTurno(this.votantes.get(dni));
+			}
+			
+			else if (!flag && this.votantes.get(dni).conocerEdad()>64 && !this.votantes.get(dni).esTrabajador() && mesa instanceof MesaPersonaMayor) {
+				flag = mesa.asignarTurno(this.votantes.get(dni));
+			}
+			else if (!flag && this.votantes.get(dni).tieneEnfPrevia() && !this.votantes.get(dni).esTrabajador() && mesa instanceof MesaPersonaEnfermedad) {
+				flag = mesa.asignarTurno(this.votantes.get(dni));
+			}	
+			
+			else  {
+					if (!flag && this.votantes.get(dni).conocerEdad()<64 && 
+						!this.votantes.get(dni).esTrabajador() && 
+						!this.votantes.get(dni).tieneEnfPrevia() && 
+						mesa instanceof MesaGeneral) {
+						
+						mesa.asignarTurno(this.votantes.get(dni));
+					}	
 			}
 		}
+		return this.votantes.get(dni).consultarTurno();
 		
-		else if(this.votantes.get(dni).conocerEdad()>64) {
-			for(Mesa mesaPersMayor: this.mesas ) {
-				if(mesaPersMayor instanceof MesaPersonaMayor) {
-					mesaPersMayor.asignarTurno(this.votantes.get(dni));
-					return this.votantes.get(dni).consultarTurno();
-				}
-			}
-		}
+		//ANTERIOR IMPLEMENTACION
+		//Ahora solo hago un foreach, en vez de en cada condicion. Agrego lo de mesas generales que no estaba
 		
-		else if(this.votantes.get(dni).esTrabajor()){
-				for(Mesa mesaPersTrabaja: this.mesas ) {
-					if(mesaPersTrabaja instanceof MesaPersonaTrabaja) {
-						mesaPersTrabaja.asignarTurno(this.votantes.get(dni));
-						return this.votantes.get(dni).consultarTurno();
-					}
-				}		
-			}
-		return null;
+//		if(this.votantes.get(dni).tieneEnfPrevia()) {
+//			for(Mesa mesaPersEnferma: this.mesas ) {
+//				if(mesaPersEnferma instanceof MesaPersonaEnfermedad) {
+//					mesaPersEnferma.asignarTurno(this.votantes.get(dni));
+//					return this.votantes.get(dni).consultarTurno();
+//				}		
+//			}
+//		}
+//		
+//		else if(this.votantes.get(dni).conocerEdad()>64) {
+//			for(Mesa mesaPersMayor: this.mesas ) {
+//				if(mesaPersMayor instanceof MesaPersonaMayor) {
+//					mesaPersMayor.asignarTurno(this.votantes.get(dni));
+//					return this.votantes.get(dni).consultarTurno();
+//				}
+//			}
+//		}
+//		
+//		else if(this.votantes.get(dni).esTrabajador()){
+//				for(Mesa mesaPersTrabaja: this.mesas ) {
+//					if(mesaPersTrabaja instanceof MesaPersonaTrabaja) {
+//						mesaPersTrabaja.asignarTurno(this.votantes.get(dni));
+//						return this.votantes.get(dni).consultarTurno();
+//					}
+//				}		
+//			}
 	}
 	
 	public int asignarTurno() {
@@ -100,9 +136,8 @@ public class SistemaDeTurnos {
 		int turnosAsignados=0;
 		Set<Integer> votantes= this.votantes.keySet();
 		for(Integer dni: votantes) {
-			this.asignarTurno(dni);
-			if(this.votantes.get(dni).tieneTurnoAsignado()) 
-				turnosAsignados++;
+			Tupla<Integer,Integer> tupla = this.asignarTurno(dni);
+			if(tupla != null) turnosAsignados++;
 		}
 	return turnosAsignados;
 	}
@@ -126,44 +161,20 @@ public class SistemaDeTurnos {
 		int result = 0;
 		
 		for (int i=0; i <mesas.size(); i++) {
+			
 			Mesa mesaActual = mesas.get(i);
 			
-			if (tipoMesa == "Mayor65" && mesaActual instanceof MesaPersonaMayor) {
-				
-				Set<Integer> keys = mesaActual.franjasHorarias.keySet();
-				
-				for (Integer key : keys) {
-					result = result + mesaActual.franjasHorarias.get(key).size();
-				}
-			}
+			Set<Integer> keys = mesaActual.franjasHorarias.keySet();
 			
-			if (tipoMesa == "Enf_Preex" && mesaActual instanceof MesaPersonaEnfermedad) {
-				
-				Set<Integer> keys = mesaActual.franjasHorarias.keySet();
-				
-				for (Integer key : keys) {
-					result = result + mesaActual.franjasHorarias.get(key).size();
+			for (Integer key : keys) {
+				if (tipoMesa == "Mayor65" && mesaActual instanceof MesaPersonaMayor) result = result + mesaActual.darVotantesEnFranjaHoraria(key).size();
+				if (tipoMesa == "Enf_Preex" && mesaActual instanceof MesaPersonaEnfermedad) result = result + mesaActual.darVotantesEnFranjaHoraria(key).size();
+				if (tipoMesa == "General" && mesaActual instanceof MesaGeneral) result = result + mesaActual.darVotantesEnFranjaHoraria(key).size();
+				if (tipoMesa == "Trabajador" && mesaActual instanceof MesaPersonaTrabaja) result = result + mesaActual.darVotantesEnFranjaHoraria(key).size();
+				else{
+					throw new RuntimeErrorException(null, "Tipo de mesa no valido");
 				}
 			}
-			if (tipoMesa == "General" && mesaActual instanceof MesaPersonaEnfermedad) {
-				
-				Set<Integer> keys = mesaActual.franjasHorarias.keySet();
-				
-				for (Integer key : keys) {
-					result = result + mesaActual.franjasHorarias.get(key).size();
-				}
-			}
-			if (tipoMesa == "Trabajador" && mesaActual instanceof MesaPersonaTrabaja) {
-				Set<Integer> keys = mesaActual.franjasHorarias.keySet();
-				
-				for (Integer key : keys) {
-					result = result + mesaActual.franjasHorarias.get(key).size();
-				}
-			}
-			else{
-				throw new RuntimeErrorException(null, "Tipo de mesa no valido");
-			}
-			
 		}
 		return result;
 	}
@@ -178,9 +189,9 @@ public class SistemaDeTurnos {
 	
 	
 	public Map<Integer,List< Integer>> asignadosAMesa(int numMesa){	
+		
 		Map<Integer,List<Integer>> votantesAsignadosAmesa = new HashMap<Integer, List<Integer>>();
-		List<Integer> dnis= new ArrayList<>();
-
+		
 		//Buscar mesa
 		int numDeMesaBuscado=0;
 		boolean bandera= true;
@@ -198,8 +209,9 @@ public class SistemaDeTurnos {
 		//buscar votantes en mesa
 		if(!bandera){
 			for (Integer franja : franjasHorarias) {
-				for (int i = 0; i < mesaAux.franjasHorarias.get(franja).size(); i++) {
-					dnis.add(mesaAux.franjasHorarias.get(franja).get(i).conocerDNI());
+				List<Integer> dnis= new ArrayList<>();
+				for (int i = 0; i < mesaAux.darVotantesEnFranjaHoraria(franja).size(); i++) {
+					dnis.add(mesaAux.darVotantesEnFranjaHoraria(franja).get(i).conocerDNI());
 				}
 				votantesAsignadosAmesa.put(franja, dnis);
 			}
@@ -220,7 +232,7 @@ public class SistemaDeTurnos {
 		int contMesaGeneral=0;
 		for (Integer dni : dnis) {
 			if(!this.votantes.get(dni).tieneTurnoAsignado()){
-				if(this.votantes.get(dni).esTrabajor())
+				if(this.votantes.get(dni).esTrabajador())
 					contMesaTrabajadores++;
 				else if(this.votantes.get(dni).tieneEnfPrevia())
 					contMesaEnfPrevia++;

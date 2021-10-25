@@ -13,12 +13,15 @@ public class MesaPersonaMayor extends Mesa{
 		}
 	
 	@Override
-	void asignarTurno(Votante votante) {
+	boolean asignarTurno(Votante votante) {
+		boolean result = false;
 		int keyFranja = buscarFranjaDisponible();
 		if(keyFranja!=0){
 			this.franjasHorarias.get(keyFranja).add(votante);
 			votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
-		}
+			result = true;
+		}	
+		return result;
 	}
 
 	@Override
@@ -67,11 +70,5 @@ public class MesaPersonaMayor extends Mesa{
 			}
 		}
 		return 0;
-	}
-
-	@Override
-	public Iterator<Mesa> iterator() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

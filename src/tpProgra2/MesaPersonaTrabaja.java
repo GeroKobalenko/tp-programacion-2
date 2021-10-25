@@ -9,15 +9,15 @@ public class MesaPersonaTrabaja extends Mesa{
 		}
 		
 	@Override
-	void asignarTurno(Votante votante) {
-			this.franjasHorarias.get(8).add(votante);
-			votante.asignarTurno(this.darCodigoDeMesa(), 8);
-		}			
+	boolean asignarTurno(Votante votante) {
+		this.franjasHorarias.get(8).add(votante); 
+		votante.asignarTurno(this.darCodigoDeMesa(), 8);
+		return true;
+	}			
 
 	@Override
 	public void confirmarVoto(Votante votante) {
-		if(this.franjasHorarias.get(8).contains(votante)) 
-			votante.votar();
+		if(this.franjasHorarias.get(8).contains(votante)) votante.votar();
 	}
 	
 	@Override	
@@ -51,11 +51,5 @@ public class MesaPersonaTrabaja extends Mesa{
 	@Override
 	public int buscarFranjaDisponible() {
 		return this.franjasHorarias.keySet().iterator().next();
-	}
-
-	@Override
-	public Iterator<Mesa> iterator() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

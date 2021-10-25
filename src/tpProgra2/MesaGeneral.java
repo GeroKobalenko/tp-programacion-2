@@ -8,14 +8,17 @@ public class MesaGeneral extends Mesa{
 		super(presDeMesa);
 		}
 		
-		@Override
-		void asignarTurno(Votante votante) {
-			int keyFranja = buscarFranjaDisponible();
-			if(keyFranja!=0){
-				this.franjasHorarias.get(keyFranja).add(votante);
-				votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
-			}
-		}
+	@Override
+	boolean asignarTurno(Votante votante) {
+		boolean result = false;
+		int keyFranja = buscarFranjaDisponible();
+		if(keyFranja!=0){
+			this.franjasHorarias.get(keyFranja).add(votante);
+			votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
+			result = true;
+		}	
+		return result;
+	}
 
 	@Override
 	public void confirmarVoto(Votante votante) {
@@ -62,11 +65,5 @@ public class MesaGeneral extends Mesa{
 			}
 		}
 		return 0;
-	}
-
-	@Override
-	public Iterator<Mesa> iterator() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
