@@ -8,7 +8,6 @@ public class SistemaDeTurnos {
 	private HashMap<Integer,Votante> votantes;
 //	private LinkedList<Mesa> mesas;
 	private ArrayList<Mesa> mesas;
-	private StringBuilder toString= new StringBuilder();
 	
 	public SistemaDeTurnos(String nombreSistema) {
 		if(nombreSistema == null) throw new RuntimeException("No ha proporcionado un nombre.");
@@ -267,8 +266,12 @@ public class SistemaDeTurnos {
 				append(", turno: ").append(votanteAux.toString()).append(votanteAux.saberSiVoto()?"Ya voto":"Sin votar").append("\n");
 			}
 		}
+		/*StringBuilder mesasAux= new StringBuilder();
+		for (int i = 0; i < mesas.size(); i++) {		
+			mesasAux.append(this.mesas.get(i).toString());
+		}*/
 		
-		return this.toString.append(this.nombreSistema).append("\n").append("\n").
+		return new StringBuilder().append(this.nombreSistema).append("\n").append("\n").
 		
 		append("Cantidad de votantes en espera de  asignacion de turno: ").append("\n").append("\n").
 		append(this.sinTurnoSegunTipoMesa().get(0).getX()).append(",votantes sin turno: ").
@@ -280,12 +283,11 @@ public class SistemaDeTurnos {
 		append(this.sinTurnoSegunTipoMesa().get(3).getX()).append(",votantes sin turno: ").
 		append(this.sinTurnoSegunTipoMesa().get(3).getY()).append("\n").
 
-
 		append("\n").append("Turnos de votantes: ").append("\n").append("\n").
-		append(turnoDeVotantes).append("\n").
+		append(turnoDeVotantes).append("\n").append("\n").
 		
 
-
-		append("Mesas habilitadas en el sistema: ").append("\n").append(mesas.toString()).toString();
+		append("Mesas habilitadas en el sistema: ").append("\n").append("\n").
+		append(mesas.toString()).toString();
 	}
 }

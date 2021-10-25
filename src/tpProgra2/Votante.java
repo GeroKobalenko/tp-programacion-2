@@ -7,8 +7,6 @@ public class Votante extends Persona {
 	private boolean esPresDeMesa;
 	private boolean yaVoto;
 	private Tupla<Integer,Integer> turno;
-	private StringBuilder toString= new StringBuilder();
-
 
 	Votante(String nombre, int dni, int edad, boolean enfPrevia, boolean trabaja) {
 		super(nombre, dni, edad);
@@ -54,6 +52,6 @@ public class Votante extends Persona {
 
 	@Override
 	public String toString() {
-		return this.toString.append(this.turno.toString()).append(" ").toString();
+		return new StringBuilder(this.turno.toString()).append(" ").toString();
 	}
 }
