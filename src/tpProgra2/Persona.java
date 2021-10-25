@@ -28,16 +28,4 @@ public class Persona {
 	public String conocerNombre(){
 		return this.nombre;
 	}
-
-
-	@Override
-	public boolean equals(Object o) {
-		if (o == this)
-			return true;
-		if (!(o instanceof Persona)) {
-			return false;
-		}
-		Persona persona = (Persona) o;
-		return Persona.equals(nombre, persona.nombre) && Persona.equals(dni, persona.dni) && Objects.equals(edad, persona.edad) && Objects.equals(info, persona.info);
-	}
 }

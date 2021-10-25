@@ -46,7 +46,7 @@ public abstract class Mesa {
 	@Override
 	public String toString() {
 		return new StringBuilder("Tipo: ").append(getClass().getName()).
-		append("Presidente de mesa: ").append(presDeMesa.conocerNombre()).append("\n").toString();
+		append(", Presidente de mesa: ").append(presDeMesa.conocerNombre()).append("\n").toString();
 	}
 
 }
