@@ -62,8 +62,6 @@ public class SistemaDeTurnos {
 		
 		if(!this.votantes.containsKey(dni)) throw new RuntimeException("El DNI no pertenece a ningun votante registrado.");
 		
-		//Preguntar a los profes, descomentar para que funquen todos los test!
-//		if(this.votantes.get(dni).tieneTurnoAsignado()) return null;
 		if(this.votantes.get(dni).tieneTurnoAsignado()) return this.votantes.get(dni).consultarTurno();
 		
 		for (Mesa mesa : this.mesas) {
@@ -101,7 +99,7 @@ public class SistemaDeTurnos {
 		Set<Integer> votantes= this.votantes.keySet();
 		for(Integer dni: votantes) {
 			Tupla<Integer,Integer> tupla = this.asignarTurno(dni);
-			if(tupla != null) turnosAsignados++;
+			if(tupla != null && !this.votantes.get(dni).esPresDeMesa()) turnosAsignados++;
 		}
 	return turnosAsignados;
 	}
