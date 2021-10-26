@@ -6,7 +6,7 @@ public class MesaGeneral extends Mesa{
 	
 	private final int franjaInicial = 8;
 	private final int franjaFinal = 18;
-	private final int cupoMesa = 20;
+	private final int cupoMesa = 30;
 
 	MesaGeneral(Votante presDeMesa){
 		super(presDeMesa);
