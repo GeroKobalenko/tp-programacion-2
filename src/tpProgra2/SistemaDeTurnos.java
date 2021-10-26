@@ -6,7 +6,6 @@ import javax.management.RuntimeErrorException;
 public class SistemaDeTurnos {
 	private String nombreSistema;
 	private HashMap<Integer,Votante> votantes;
-//	private LinkedList<Mesa> mesas;
 	private ArrayList<Mesa> mesas;
 	
 	public SistemaDeTurnos(String nombreSistema) {
@@ -95,36 +94,6 @@ public class SistemaDeTurnos {
 			}
 		}
 		return this.votantes.get(dni).consultarTurno();
-		
-		//ANTERIOR IMPLEMENTACION
-		//Ahora solo hago un foreach, en vez de en cada condicion. Agrego lo de mesas generales que no estaba
-		
-//		if(this.votantes.get(dni).tieneEnfPrevia()) {
-//			for(Mesa mesaPersEnferma: this.mesas ) {
-//				if(mesaPersEnferma instanceof MesaPersonaEnfermedad) {
-//					mesaPersEnferma.asignarTurno(this.votantes.get(dni));
-//					return this.votantes.get(dni).consultarTurno();
-//				}		
-//			}
-//		}
-//		
-//		else if(this.votantes.get(dni).conocerEdad()>64) {
-//			for(Mesa mesaPersMayor: this.mesas ) {
-//				if(mesaPersMayor instanceof MesaPersonaMayor) {
-//					mesaPersMayor.asignarTurno(this.votantes.get(dni));
-//					return this.votantes.get(dni).consultarTurno();
-//				}
-//			}
-//		}
-//		
-//		else if(this.votantes.get(dni).esTrabajador()){
-//				for(Mesa mesaPersTrabaja: this.mesas ) {
-//					if(mesaPersTrabaja instanceof MesaPersonaTrabaja) {
-//						mesaPersTrabaja.asignarTurno(this.votantes.get(dni));
-//						return this.votantes.get(dni).consultarTurno();
-//					}
-//				}		
-//			}
 	}
 	
 	public int asignarTurnos() {

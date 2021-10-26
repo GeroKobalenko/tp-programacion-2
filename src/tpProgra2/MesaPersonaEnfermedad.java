@@ -4,6 +4,10 @@ import java.util.*;
 
 public class MesaPersonaEnfermedad extends Mesa{
 	
+	private final int franjaInicial = 8;
+	private final int franjaFinal = 18;
+	private final int cupoMesa = 20;
+	
 	MesaPersonaEnfermedad(Votante presDeMesa){
 		super(presDeMesa);
 		}
@@ -22,8 +26,8 @@ public class MesaPersonaEnfermedad extends Mesa{
 	
 	@Override
 	public int buscarFranjaDisponible() {
-		for(int i=8; i<18 ; i++) {
-			if (this.franjasHorarias.get(i).size() < 20) {
+		for(int i=franjaInicial; i<franjaFinal; i++) {
+			if (this.franjasHorarias.get(i).size() < cupoMesa) {
 				return i;
 			}
 		}
@@ -47,12 +51,12 @@ public class MesaPersonaEnfermedad extends Mesa{
 	
 	@Override	
 	public int darCupoDeMesa(int franja) {
-		return 20-this.franjasHorarias.get(franja).size();
+		return cupoMesa-this.franjasHorarias.get(franja).size();
 	}
 	
 	@Override
 	public void inicializarFranjas() {
-		for(int i=8; i<18 ; i++)
+		for(int i=franjaInicial; i<franjaFinal ; i++)
 			this.franjasHorarias.put(i,new ArrayList<>());
 	}
 

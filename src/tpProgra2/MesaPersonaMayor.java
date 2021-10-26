@@ -1,12 +1,14 @@
 package tpProgra2;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
 public class MesaPersonaMayor extends Mesa{
+	
+	private final int franjaInicial = 8;
+	private final int franjaFinal = 18;
+	private final int cupoMesa = 10;
 
 	MesaPersonaMayor(Votante presDeMesa){
 		super(presDeMesa);
@@ -46,7 +48,7 @@ public class MesaPersonaMayor extends Mesa{
 	
 	@Override	
 	public void inicializarFranjas() {
-		for(int i=8; i<18 ; i++)
+		for(int i=franjaInicial; i<franjaFinal ; i++)
 			this.franjasHorarias.put(i,new ArrayList<>());
 	}
 	
@@ -64,8 +66,8 @@ public class MesaPersonaMayor extends Mesa{
 	
 	@Override
 	public int buscarFranjaDisponible() {
-		for(int i=8; i<18 ; i++) {
-			if (this.franjasHorarias.get(i).size()<9) {
+		for(int i=franjaInicial; i<franjaFinal ; i++) {
+			if (this.franjasHorarias.get(i).size()< cupoMesa) {
 				return i;
 			}
 		}

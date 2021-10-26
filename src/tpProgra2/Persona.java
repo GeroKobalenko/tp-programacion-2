@@ -4,8 +4,6 @@ public class Persona {
 	private String nombre;
 	private Integer dni;
 	private Integer edad;
-	private StringBuilder info= new StringBuilder("El nombre es: ").append(nombre)
-			.append(", DNI: ").append(dni).append(", Edad: ").append(edad);
 	
 	Persona(String nombre, int dni, int edad){
 		this.nombre=nombre;
@@ -14,7 +12,7 @@ public class Persona {
 	}
 	
 	public String darInfo() {
-		return info.toString();
+		return new StringBuilder("El nombre es: ").append(nombre).append(", DNI: ").append(dni).append(", Edad: ").append(edad).toString();
 	}
 	
 	public int conocerEdad() {

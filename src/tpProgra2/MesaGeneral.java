@@ -3,6 +3,10 @@ package tpProgra2;
 import java.util.*;
 
 public class MesaGeneral extends Mesa{
+	
+	private final int franjaInicial = 8;
+	private final int franjaFinal = 18;
+	private final int cupoMesa = 20;
 
 	MesaGeneral(Votante presDeMesa){
 		super(presDeMesa);
@@ -41,7 +45,7 @@ public class MesaGeneral extends Mesa{
 	
 	@Override	
 	public void inicializarFranjas() {
-		for(int i=8; i<18 ; i++)
+		for(int i=franjaInicial; i<franjaFinal ; i++)
 			this.franjasHorarias.put(i,new ArrayList<>());
 	}
 
@@ -59,8 +63,8 @@ public class MesaGeneral extends Mesa{
 
 	@Override
 	public int buscarFranjaDisponible() {
-		for(int i=8; i<=18 ; i++) {
-			if (this.franjasHorarias.get(i).size()< 19) {
+		for(int i=franjaInicial; i<=franjaFinal ; i++) {
+			if (this.franjasHorarias.get(i).size() < cupoMesa) {
 				return i;
 			}
 		}
