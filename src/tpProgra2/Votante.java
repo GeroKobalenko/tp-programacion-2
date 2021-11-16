@@ -9,7 +9,9 @@ public class Votante extends Persona {
 	private Tupla<Integer,Integer> turno;
 
 	Votante(String nombre, int dni, int edad, boolean enfPrevia, boolean trabaja) {
+		
 		super(nombre, dni, edad);
+		
 		this.enfPrevia=enfPrevia;
 		this.trabaja=trabaja;
 	}

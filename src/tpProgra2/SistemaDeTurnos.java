@@ -3,6 +3,7 @@ package tpProgra2;
 import java.util.*;
 import javax.management.RuntimeErrorException;
 
+
 public class SistemaDeTurnos {
 	private String nombreSistema;
 	private HashMap<Integer,Votante> votantes;
@@ -16,10 +17,9 @@ public class SistemaDeTurnos {
 	}
 	
 	public void registrarVotante(int dni, String nombre, int edad, boolean enfPrevia, boolean trabaja) {
-		
-		if(edad<16) throw new RuntimeException("La edad no es valida para votar.");
-	
-		this.votantes.put(dni, new Votante(nombre, dni, edad, enfPrevia, trabaja));
+
+		Votante votante = new Votante(nombre, dni, edad, enfPrevia, trabaja);
+		this.votantes.put(dni, votante);
 	}
 	
 	
@@ -29,23 +29,25 @@ public class SistemaDeTurnos {
 		
 		if (this.votantes.get(dni).tieneTurnoAsignado()) throw new RuntimeErrorException(null,"El presidente de mesa ya tiene un turno asignado.");
 		
+		Votante votante = this.votantes.get(dni);
+		
 		if(tipoMesa.compareTo("Mayor65")==0) {
-			Mesa mesaMayorAux= new MesaPersonaMayor(this.votantes.get(dni));
+			Mesa mesaMayorAux= new MesaPersonaMayor(votante);
 			this.mesas.add(mesaMayorAux);
 			return mesaMayorAux.darCodigoDeMesa();
 		}
 		else if(tipoMesa.compareTo("Enf_Preex")==0) {
-			Mesa mesaEnfermaAux= new MesaPersonaEnfermedad(this.votantes.get(dni));
+			Mesa mesaEnfermaAux= new MesaPersonaEnfermedad(votante);
 			this.mesas.add(mesaEnfermaAux);
 			return mesaEnfermaAux.darCodigoDeMesa();
 		}
 		else if(tipoMesa.compareTo("General")==0) {
-			Mesa mesaGeneralAux= new MesaGeneral(this.votantes.get(dni));
+			Mesa mesaGeneralAux= new MesaGeneral(votante);
 			this.mesas.add(mesaGeneralAux);
 			return mesaGeneralAux.darCodigoDeMesa();
 		}
 		else if (tipoMesa.compareTo("Trabajador")==0) {
-			Mesa mesaTrabajadorAux= new MesaPersonaTrabaja(this.votantes.get(dni));
+			Mesa mesaTrabajadorAux= new MesaPersonaTrabaja(votante);
 			this.mesas.add(mesaTrabajadorAux);
 			return mesaTrabajadorAux.darCodigoDeMesa();
 		}
@@ -64,39 +66,43 @@ public class SistemaDeTurnos {
 		
 		if(this.votantes.get(dni).tieneTurnoAsignado()) return this.votantes.get(dni).consultarTurno();
 		
+		Votante votante = this.votantes.get(dni);
+		
 		for (Mesa mesa : this.mesas) {
-			if (this.votantes.get(dni).esTrabajador() && mesa instanceof MesaPersonaTrabaja) {
-				flag = mesa.asignarTurno(this.votantes.get(dni));
+			if (votante.esTrabajador() && mesa instanceof MesaPersonaTrabaja) {
+				flag = mesa.asignarTurno(votante);
 			}
 			//Trato en especifico el caso que sea mayor y tenga enfermedad.
-			else if (this.votantes.get(dni).conocerEdad()>64 && this.votantes.get(dni).tieneEnfPrevia()) {
-				if (mesa instanceof MesaPersonaEnfermedad) flag = mesa.asignarTurno(this.votantes.get(dni));
-				if (!flag && mesa instanceof MesaPersonaMayor) flag = mesa.asignarTurno(this.votantes.get(dni));
+			else if (votante.esMayorEdad() && votante.tieneEnfPrevia()) {
+				if (mesa instanceof MesaPersonaEnfermedad) flag = mesa.asignarTurno(votante);
+				if (!flag && mesa instanceof MesaPersonaMayor) flag = mesa.asignarTurno(votante);
 			}
 			
-			else if (!flag && this.votantes.get(dni).conocerEdad()>64 && !this.votantes.get(dni).esTrabajador() && mesa instanceof MesaPersonaMayor) {
-				flag = mesa.asignarTurno(this.votantes.get(dni));
+			else if (!flag && votante.esMayorEdad() && !votante.esTrabajador() && mesa instanceof MesaPersonaMayor) {
+				flag = mesa.asignarTurno(votante);
 			}
-			else if (!flag && this.votantes.get(dni).tieneEnfPrevia() && !this.votantes.get(dni).esTrabajador() && mesa instanceof MesaPersonaEnfermedad) {
-				flag = mesa.asignarTurno(this.votantes.get(dni));
+			else if (!flag && votante.tieneEnfPrevia() && !votante.esTrabajador() && mesa instanceof MesaPersonaEnfermedad) {
+				flag = mesa.asignarTurno(votante);
 			}	
 			
 			else  {
-					if (!flag && this.votantes.get(dni).conocerEdad()<64 && 
-						!this.votantes.get(dni).esTrabajador() && 
-						!this.votantes.get(dni).tieneEnfPrevia() && 
+					if (!flag && votante.esMayorEdad() && 
+						!votante.esTrabajador() && 
+						!votante.tieneEnfPrevia() && 
 						mesa instanceof MesaGeneral) {
 						
-						mesa.asignarTurno(this.votantes.get(dni));
+						mesa.asignarTurno(votante);
 					}	
 			}
 		}
-		return this.votantes.get(dni).consultarTurno();
+		return votante.consultarTurno();
 	}
 	
 	public int asignarTurnos() {
+		
 		int turnosAsignados=0;
 		Set<Integer> votantes= this.votantes.keySet();
+		
 		for(Integer dni: votantes) {
 			Tupla<Integer,Integer> tupla = this.asignarTurno(dni);
 			if(tupla != null && !this.votantes.get(dni).esPresDeMesa()) turnosAsignados++;
@@ -107,7 +113,7 @@ public class SistemaDeTurnos {
 	public boolean votar(int dni) {
 		if(!this.votantes.containsKey(dni))
 			throw new RuntimeException();
-			
+		
 		else if(this.votantes.get(dni).saberSiVoto())
 			return false;
 		
@@ -167,6 +173,7 @@ public class SistemaDeTurnos {
 		}
 
 		Mesa mesaAux= this.mesas.get(numDeMesaBuscado);
+		
 		Set<Integer> franjasHorarias= mesaAux.franjasHorarias.keySet();
 		//buscar votantes en mesa
 		if(!bandera){
@@ -193,12 +200,15 @@ public class SistemaDeTurnos {
 		int contMesaPersonaMayor=0;
 		int contMesaGeneral=0;
 		for (Integer dni : dnis) {
-			if(!this.votantes.get(dni).tieneTurnoAsignado()){
-				if(this.votantes.get(dni).esTrabajador())
+			
+			Votante votanteAux = this.votantes.get(dni);
+			
+			if(!votanteAux.tieneTurnoAsignado()){
+				if(votanteAux.esTrabajador())
 					contMesaTrabajadores++;
-				else if(this.votantes.get(dni).tieneEnfPrevia())
+				else if(votanteAux.tieneEnfPrevia())
 					contMesaEnfPrevia++;
-				else if(this.votantes.get(dni).conocerEdad()>64)
+				else if(votanteAux.esMayorEdad())
 					contMesaPersonaMayor++;
 				else{
 					contMesaGeneral++;

@@ -17,6 +17,7 @@ public class Tupla<X, Y> {
 		return y;
 	}
 
+	//Ver en quitarlo y donde poder agregarlo, ya q esta clase es la proporcionada por los profesores.
 	@Override
 	public String toString() {
 		return new StringBuilder("Codigo de mesa=").append(getX()).
