@@ -11,14 +11,14 @@ public class MesaPersonaTrabaja extends Mesa {
 
 	@Override
 	boolean asignarTurno(Votante votante) {
-		this.franjasHorarias.get(8).add(votante);
+		darVotantesEnFranjaHoraria(8).add(votante);
 		votante.asignarTurno(this.darCodigoDeMesa(), 8);
 		return true;
 	}
 
 	@Override
 	public void confirmarVoto(Votante votante) {
-		if (this.franjasHorarias.get(8).contains(votante))
+		if (darVotantesEnFranjaHoraria(8).contains(votante))
 			votante.votar();
 	}
 

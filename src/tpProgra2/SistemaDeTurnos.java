@@ -266,29 +266,40 @@ public class SistemaDeTurnos {
 		this.mesas.add(mesa);
 		return mesa.darCodigoDeMesa();
 	}
-
-	@Override
-	public String toString() {
+	
+	private StringBuilder obtenerStringBuilderTurnoDeVotantes() {
+		
 		StringBuilder turnoDeVotantes = new StringBuilder();
-		StringBuilder votantesSinTurnos= new StringBuilder();
 		Collection<Votante> votantesAux = this.votantes.values();
-
+		
 		for (Votante votanteAux : votantesAux) {
 			if (votanteAux.tieneTurnoAsignado()) {
 				turnoDeVotantes.append("Votante: ").append(votanteAux.toString()).
 				append("\n");
 			}
 		}
-
+		
+		return turnoDeVotantes;
+	}
+	
+	private StringBuilder obtenerStringBuilderSinTurnoTipoMesa() {
+		
+		StringBuilder votantesSinTurnos= new StringBuilder();
+		
 		for (int i = 0; i < sinTurnoSegunTipoMesa().size(); i++) {
 			votantesSinTurnos.append(this.sinTurnoSegunTipoMesa().get(i).getX()).
 			append(",votantes sin turno: ").append(this.sinTurnoSegunTipoMesa().get(i).getY()).append("\n");
 		}
 		
+		return votantesSinTurnos;
+	} 
+
+	@Override
+	public String toString() {
 		return new StringBuilder().append(this.nombreSistema).append("\n").append("\n").
-		append("Cantidad de votantes en espera de  asignacion de turno: ").append(votantesSinTurnos).
+		append("Cantidad de votantes en espera de  asignacion de turno: ").append(obtenerStringBuilderSinTurnoTipoMesa()).
 		append("\n").append("\n").append("\n").append("Turnos de votantes: ").append("\n").append("\n").
-		append(turnoDeVotantes).append("\n").append("\n").append("Mesas habilitadas en el sistema: ").
+		append(obtenerStringBuilderTurnoDeVotantes()).append("\n").append("\n").append("Mesas habilitadas en el sistema: ").
 		append("\n").append("\n").append(mesas.toString()).toString();
 	}
 }

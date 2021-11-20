@@ -2,6 +2,8 @@ package tpProgra2;
 
 import java.util.*;
 
+import javax.management.RuntimeErrorException;
+
 public abstract class Mesa {
 
 	private static Integer contadorCodigo = 0;
@@ -10,6 +12,8 @@ public abstract class Mesa {
 	protected HashMap<Integer, ArrayList<Votante>> franjasHorarias;
 
 	Mesa(Votante presidenteDeMesa) {
+		
+		if (presidenteDeMesa == null) throw new RuntimeErrorException(null, "El presidente de mesa no es correcto.");
 		
 		presidenteDeMesa.asignarPresDeMesa(true);
 		presDeMesa = presidenteDeMesa;

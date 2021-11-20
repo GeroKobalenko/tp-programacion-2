@@ -19,7 +19,7 @@ public class MesaPersonaMayor extends Mesa{
 		boolean result = false;
 		int keyFranja = buscarFranjaDisponible();
 		if(keyFranja!=0){
-			this.franjasHorarias.get(keyFranja).add(votante);
+			this.darVotantesEnFranjaHoraria(keyFranja).add(votante);
 			votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
 			result = true;
 		}	
@@ -30,7 +30,7 @@ public class MesaPersonaMayor extends Mesa{
 	public void confirmarVoto(Votante votante) {
 		Set<Integer> franjasHorarias=this.franjasHorarias.keySet();
 		for(int franjas: franjasHorarias) {
-			if(this.franjasHorarias.get(franjas).contains(votante)) {
+			if(darVotantesEnFranjaHoraria(franjas).contains(votante)) {
 				votante.votar();
 			}
 		}
@@ -43,7 +43,7 @@ public class MesaPersonaMayor extends Mesa{
 	
 	@Override
 	public int darCupoDeMesa(int franja) {
-		return 20-this.franjasHorarias.get(franja).size();
+		return 20-darVotantesEnFranjaHoraria(franja).size();
 	}
 	
 	@Override	
@@ -55,7 +55,7 @@ public class MesaPersonaMayor extends Mesa{
 	@Override
 	public int buscarFranjaDisponible() {
 		for(int i=franjaInicial; i<franjaFinal ; i++) {
-			if (this.franjasHorarias.get(i).size()< cupoMesa) {
+			if (darVotantesEnFranjaHoraria(i).size()< cupoMesa) {
 				return i;
 			}
 		}

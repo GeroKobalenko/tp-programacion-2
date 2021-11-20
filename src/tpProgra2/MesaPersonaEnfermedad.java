@@ -17,7 +17,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 		boolean result = false;
 		int keyFranja = buscarFranjaDisponible();
 		if(keyFranja!=0){
-			this.franjasHorarias.get(keyFranja).add(votante);
+			darVotantesEnFranjaHoraria(keyFranja).add(votante);
 			votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
 			result = true;
 		}	
@@ -27,7 +27,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 	@Override
 	public int buscarFranjaDisponible() {
 		for(int i=franjaInicial; i<franjaFinal; i++) {
-			if (this.franjasHorarias.get(i).size() < cupoMesa) {
+			if (darVotantesEnFranjaHoraria(i).size() < cupoMesa) {
 				return i;
 			}
 		}
@@ -38,7 +38,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 	public void confirmarVoto(Votante votante) {
 		Set<Integer> franjasHorarias=this.franjasHorarias.keySet();
 		for(int franjas: franjasHorarias) {
-			if(this.franjasHorarias.get(franjas).contains(votante)) {
+			if(darVotantesEnFranjaHoraria(franjas).contains(votante)) {
 				votante.votar();
 			}
 		}
@@ -51,7 +51,7 @@ public class MesaPersonaEnfermedad extends Mesa{
 	
 	@Override	
 	public int darCupoDeMesa(int franja) {
-		return cupoMesa-this.franjasHorarias.get(franja).size();
+		return cupoMesa-darVotantesEnFranjaHoraria(franja).size();
 	}
 	
 	@Override
