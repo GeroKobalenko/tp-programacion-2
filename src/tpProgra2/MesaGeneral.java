@@ -50,18 +50,6 @@ public class MesaGeneral extends Mesa{
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Mesa other = (Mesa) obj;
-		return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
-	}
-
-	@Override
 	public int buscarFranjaDisponible() {
 		for(int i=franjaInicial; i<=franjaFinal ; i++) {
 			if (this.franjasHorarias.get(i).size() < cupoMesa) {

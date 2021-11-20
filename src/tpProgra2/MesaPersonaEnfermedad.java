@@ -59,16 +59,4 @@ public class MesaPersonaEnfermedad extends Mesa{
 		for(int i=franjaInicial; i<franjaFinal ; i++)
 			this.franjasHorarias.put(i,new ArrayList<>());
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Mesa other = (Mesa) obj;
-		return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
-	}
 }

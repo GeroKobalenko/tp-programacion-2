@@ -16,12 +16,4 @@ public class Tupla<X, Y> {
 	public Y getY() {
 		return y;
 	}
-
-	//Ver en quitarlo y donde poder agregarlo, ya q esta clase es la proporcionada por los profesores.
-	@Override
-	public String toString() {
-		return new StringBuilder("Codigo de mesa=").append(getX()).
-		append(", Franja Horaria=").append(getY()).toString();
-	}
-
 }

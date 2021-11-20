@@ -2,8 +2,6 @@ package tpProgra2;
 
 import java.util.*;
 
-import javax.management.RuntimeErrorException;
-
 public abstract class Mesa {
 
 	private static Integer contadorCodigo = 0;
@@ -43,12 +41,22 @@ public abstract class Mesa {
 
 	abstract void confirmarVoto(Votante votante);
 
-	public abstract boolean equals(Object obj);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mesa other = (Mesa) obj;
+		return Objects.equals(this.darCodigoDeMesa(), other.darCodigoDeMesa());
+	}
 
 	@Override
 	public String toString() {
 		return new StringBuilder("Tipo: ").append(getClass().getName()).append(", Presidente de mesa: ")
-				.append(presDeMesa.conocerNombre()).append("\n").toString();
+				.append(presDeMesa.toString()).append("\n").toString();
 	}
 
 }

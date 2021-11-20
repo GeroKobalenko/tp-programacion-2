@@ -183,7 +183,7 @@ public class SistemaDeTurnos {
 				ArrayList<Votante> votantes = mesaAux.darVotantesEnFranjaHoraria(franja);
 				
 				for (int i = 0; i < votantes.size(); i++) {
-					dnis.add(votantes.get(i).conocerDNI());
+					dnis.add(votantes.get(i).decirDNI());
 				}
 				votantesAsignadosAmesa.put(franja, dnis);
 			}
@@ -270,36 +270,25 @@ public class SistemaDeTurnos {
 	@Override
 	public String toString() {
 		StringBuilder turnoDeVotantes = new StringBuilder();
+		StringBuilder votantesSinTurnos= new StringBuilder();
 		Collection<Votante> votantesAux = this.votantes.values();
 
 		for (Votante votanteAux : votantesAux) {
 			if (votanteAux.tieneTurnoAsignado()) {
-				turnoDeVotantes.append("Nombre: ").append(votanteAux.conocerNombre()).append(", turno: ")
-						.append(votanteAux.toString()).append(votanteAux.saberSiVoto() ? "Ya voto" : "Sin votar")
-						.append("\n");
+				turnoDeVotantes.append("Votante: ").append(votanteAux.toString()).
+				append("\n");
 			}
 		}
-		/*
-		 * StringBuilder mesasAux= new StringBuilder(); for (int i = 0; i <
-		 * mesas.size(); i++) { mesasAux.append(this.mesas.get(i).toString()); }
-		 */
 
+		for (int i = 0; i < sinTurnoSegunTipoMesa().size(); i++) {
+			votantesSinTurnos.append(this.sinTurnoSegunTipoMesa().get(i).getX()).
+			append(",votantes sin turno: ").append(this.sinTurnoSegunTipoMesa().get(i).getY()).append("\n");
+		}
+		
 		return new StringBuilder().append(this.nombreSistema).append("\n").append("\n").
-
-				append("Cantidad de votantes en espera de  asignacion de turno: ").append("\n").append("\n")
-				.append(this.sinTurnoSegunTipoMesa().get(0).getX()).append(",votantes sin turno: ")
-				.append(this.sinTurnoSegunTipoMesa().get(0).getY()).append("\n")
-				.append(this.sinTurnoSegunTipoMesa().get(1).getX()).append(",votantes sin turno: ")
-				.append(this.sinTurnoSegunTipoMesa().get(1).getY()).append("\n")
-				.append(this.sinTurnoSegunTipoMesa().get(2).getX()).append(",votantes sin turno: ")
-				.append(this.sinTurnoSegunTipoMesa().get(2).getY()).append("\n")
-				.append(this.sinTurnoSegunTipoMesa().get(3).getX()).append(",votantes sin turno: ")
-				.append(this.sinTurnoSegunTipoMesa().get(3).getY()).append("\n").
-
-				append("\n").append("Turnos de votantes: ").append("\n").append("\n").append(turnoDeVotantes)
-				.append("\n").append("\n").
-
-				append("Mesas habilitadas en el sistema: ").append("\n").append("\n").append(mesas.toString())
-				.toString();
+		append("Cantidad de votantes en espera de  asignacion de turno: ").append(votantesSinTurnos).
+		append("\n").append("\n").append("\n").append("Turnos de votantes: ").append("\n").append("\n").
+		append(turnoDeVotantes).append("\n").append("\n").append("Mesas habilitadas en el sistema: ").
+		append("\n").append("\n").append(mesas.toString()).toString();
 	}
 }

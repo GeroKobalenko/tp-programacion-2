@@ -54,6 +54,7 @@ public class Votante extends Persona {
 
 	@Override
 	public String toString() {
-		return new StringBuilder(this.turno.toString()).append(" ").toString();
+		return new StringBuilder(super.toString()).append(" ").
+		append(this.turno.toString()).append(" ").toString();
 	}
 }
