@@ -34,19 +34,19 @@ public class SistemaDeTurnos {
 
 		if (tipoMesa.compareTo("Mayor65") == 0) {
 			Mesa mesaMayorAux = new MesaPersonaMayor(votante);
-			return añadirMesa(mesaMayorAux);
+			return aniadirMesa(mesaMayorAux);
 			
 		} else if (tipoMesa.compareTo("Enf_Preex") == 0) {
 			Mesa mesaEnfermaAux = new MesaPersonaEnfermedad(votante);
-			return añadirMesa(mesaEnfermaAux);
+			return aniadirMesa(mesaEnfermaAux);
 			
 		} else if (tipoMesa.compareTo("General") == 0) {
 			Mesa mesaGeneralAux = new MesaGeneral(votante);
-			return añadirMesa(mesaGeneralAux);
+			return aniadirMesa(mesaGeneralAux);
 			
 		} else if (tipoMesa.compareTo("Trabajador") == 0) {
 			Mesa mesaTrabajadorAux = new MesaPersonaTrabaja(votante);
-			return añadirMesa(mesaTrabajadorAux);
+			return aniadirMesa(mesaTrabajadorAux);
 			
 		} else {
 			throw new RuntimeErrorException(null, "Tipo de mesa no valido");
@@ -261,7 +261,7 @@ public class SistemaDeTurnos {
 		throw new RuntimeException();
 	}
 
-	private int añadirMesa(Mesa mesa) {
+	private int aniadirMesa(Mesa mesa) {
 
 		this.mesas.add(mesa);
 		return mesa.darCodigoDeMesa();
