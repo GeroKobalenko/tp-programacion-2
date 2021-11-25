@@ -16,11 +16,13 @@ public class MesaPersonaEnfermedad extends Mesa{
 	boolean asignarTurno(Votante votante) {
 		boolean result = false;
 		int keyFranja = buscarFranjaDisponible();
-		if(keyFranja!=0){
+		
+		if(keyFranja!=0 && votante.tieneEnfPrevia()){
 			darVotantesEnFranjaHoraria(keyFranja).add(votante);
 			votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
 			result = true;
-		}	
+		}
+		
 		return result;
 	}
 	

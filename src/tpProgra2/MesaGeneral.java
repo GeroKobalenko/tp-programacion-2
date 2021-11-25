@@ -2,56 +2,61 @@ package tpProgra2;
 
 import java.util.*;
 
-public class MesaGeneral extends Mesa{
-	
+public class MesaGeneral extends Mesa {
+
 	private final int franjaInicial = 8;
 	private final int franjaFinal = 18;
 	private final int cupoMesa = 30;
 
-	MesaGeneral(Votante presDeMesa){
+	MesaGeneral(Votante presDeMesa) {
 		super(presDeMesa);
-		}
-		
+	}
+
 	@Override
 	boolean asignarTurno(Votante votante) {
 		boolean result = false;
 		int keyFranja = buscarFranjaDisponible();
-		if(keyFranja!=0){
-			this.franjasHorarias.get(keyFranja).add(votante);
+
+		if (keyFranja != 0 &&
+			!votante.esMayorEdad() &&
+			!votante.esTrabajador() &&
+			!votante.tieneEnfPrevia()) {
+			
+			darVotantesEnFranjaHoraria(keyFranja).add(votante);
 			votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
 			result = true;
-		}	
+		}
 		return result;
 	}
 
 	@Override
 	public void confirmarVoto(Votante votante) {
-		Set<Integer> franjasHorarias=this.franjasHorarias.keySet();
-		for(int franjas: franjasHorarias) {
-			if(darVotantesEnFranjaHoraria(franjas).contains(votante)) {
+		Set<Integer> franjasHorarias = this.franjasHorarias.keySet();
+		for (int franjas : franjasHorarias) {
+			if (darVotantesEnFranjaHoraria(franjas).contains(votante)) {
 				votante.votar();
 			}
 		}
 	}
-	
-	@Override	
-	public ArrayList<Votante>  darVotantesEnFranjaHoraria(int franja) {
+
+	@Override
+	public ArrayList<Votante> darVotantesEnFranjaHoraria(int franja) {
 		return franjasHorarias.get(franja);
 	}
-	
+
 	public int darCupoDeMesa(int franja) {
-		return 30-darVotantesEnFranjaHoraria(franja).size();
+		return 30 - darVotantesEnFranjaHoraria(franja).size();
 	}
-	
-	@Override	
+
+	@Override
 	public void inicializarFranjas() {
-		for(int i=franjaInicial; i<franjaFinal ; i++)
-			this.franjasHorarias.put(i,new ArrayList<>());
+		for (int i = franjaInicial; i < franjaFinal; i++)
+			this.franjasHorarias.put(i, new ArrayList<>());
 	}
 
 	@Override
 	public int buscarFranjaDisponible() {
-		for(int i=franjaInicial; i<=franjaFinal ; i++) {
+		for (int i = franjaInicial; i <= franjaFinal; i++) {
 			if (darVotantesEnFranjaHoraria(i).size() < cupoMesa) {
 				return i;
 			}

@@ -68,30 +68,8 @@ public class SistemaDeTurnos {
 		Votante votante = obtenerVotante(dni);
 
 		for (Mesa mesa : this.mesas) {
-			if (votante.esTrabajador() && mesa instanceof MesaPersonaTrabaja) {
+			while (!flag) {
 				flag = mesa.asignarTurno(votante);
-			}
-			// Trato en especifico el caso que sea mayor y tenga enfermedad.
-			else if (votante.esMayorEdad() && votante.tieneEnfPrevia()) {
-				if (mesa instanceof MesaPersonaEnfermedad)
-					flag = mesa.asignarTurno(votante);
-				if (!flag && mesa instanceof MesaPersonaMayor)
-					flag = mesa.asignarTurno(votante);
-			}
-
-			else if (!flag && votante.esMayorEdad() && !votante.esTrabajador() && mesa instanceof MesaPersonaMayor) {
-				flag = mesa.asignarTurno(votante);
-			} else if (!flag && votante.tieneEnfPrevia() && !votante.esTrabajador()
-					&& mesa instanceof MesaPersonaEnfermedad) {
-				flag = mesa.asignarTurno(votante);
-			}
-
-			else {
-				if (!flag && votante.esMayorEdad() && !votante.esTrabajador() && !votante.tieneEnfPrevia()
-						&& mesa instanceof MesaGeneral) {
-
-					mesa.asignarTurno(votante);
-				}
 			}
 		}
 		return votante.consultarTurno();
