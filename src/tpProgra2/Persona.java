@@ -11,7 +11,7 @@ public class Persona {
 	Persona(String nombre, int dni, int edad) {
 
 		// Valido los parametros
-		if (nombre == null || edad < 16 || dni <= 0)
+		if (nombre == null || edad < 16 || dni < 0)
 			throw new RuntimeErrorException(null, "Algun parametro proporcionado es incorrecto.");
 
 		this.nombre = nombre;

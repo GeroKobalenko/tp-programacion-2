@@ -68,9 +68,10 @@ public class SistemaDeTurnos {
 		Votante votante = obtenerVotante(dni);
 
 		for (Mesa mesa : this.mesas) {
-			while (!flag) {
 				flag = mesa.asignarTurno(votante);
-			}
+				if (flag) {
+					return votante.consultarTurno();
+				}
 		}
 		return votante.consultarTurno();
 	}

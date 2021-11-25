@@ -40,6 +40,8 @@ public abstract class Mesa {
 	public abstract ArrayList<Votante> darVotantesEnFranjaHoraria(int franja);
 
 	abstract boolean asignarTurno(Votante votante);
+	
+	abstract boolean esVotanteApto(Votante votante);
 
 	public abstract int darCupoDeMesa(int franja);
 

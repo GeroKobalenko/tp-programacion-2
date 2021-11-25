@@ -17,16 +17,21 @@ public class MesaGeneral extends Mesa {
 		boolean result = false;
 		int keyFranja = buscarFranjaDisponible();
 
-		if (keyFranja != 0 &&
-			!votante.esMayorEdad() &&
-			!votante.esTrabajador() &&
-			!votante.tieneEnfPrevia()) {
-			
+		if (keyFranja != 0 && (esVotanteApto(votante) || votante.esPresDeMesa())) {
+
 			darVotantesEnFranjaHoraria(keyFranja).add(votante);
 			votante.asignarTurno(this.darCodigoDeMesa(), keyFranja);
 			result = true;
 		}
 		return result;
+	}
+
+	@Override
+	boolean esVotanteApto(Votante votante) {
+		if (!votante.esMayorEdad() && !votante.esTrabajador() && !votante.tieneEnfPrevia()) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
