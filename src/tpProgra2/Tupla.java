@@ -16,4 +16,13 @@ public class Tupla<X, Y> {
 	public Y getY() {
 		return y;
 	}
+
+	@Override
+	public String toString() {
+		return "{" +
+				" x='" + getX() + "'" +
+				", y='" + getY() + "'" +
+				"}";
+	}
+
 }
